@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Tasty Coffee — Specialty Coffee House, London</title>
-<meta name="description" content="Tasty Coffee — премиальная кофейня в Mayfair, Лондон. Бронирование столика, предзаказ на самовывоз, авторское меню.">
+<title>Marlow Coffee — Specialty Coffee House, London</title>
+<meta name="description" content="Marlow Coffee — премиальная кофейня в Mayfair, Лондон. Бронирование столика, предзаказ на самовывоз, авторское меню.">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
 
 <style>
 /* ============================================================
-   TASTY COFFEE — DESIGN TOKENS
+   MARLOW COFFEE — DESIGN TOKENS
    Единая тёплая тема. Без чисто белого/чёрного — всё через
    кофейно-карамельную палитру, светлые секции = крем, а не #fff.
    ============================================================ */
@@ -178,7 +178,8 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
 @media (max-width:880px){
   .nav-links{display:none;}
   .burger{display:flex;}
-  .status-chip span.chip-label{display:none;}
+  .status-chip{display:none;}
+  .nav .brand-mark{display:none;}
 }
 
 /* mobile drawer */
@@ -441,8 +442,8 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
   position:relative;overflow:hidden;
 }
 .booking-shell::before{
-  content:"";position:absolute;top:-60%;right:-20%;width:60%;height:160%;
-  background:radial-gradient(circle, rgba(199,161,100,.10), transparent 70%);
+  content:"";position:absolute;top:-40%;right:-40%;width:120%;height:180%;
+  background:radial-gradient(circle, rgba(199,161,100,.09), transparent 60%);
   pointer-events:none;
 }
 .booking-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap;margin-bottom:38px;}
@@ -609,7 +610,7 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
       <span class="brand-mark">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 8h12a2 2 0 0 1 2 2c0 3-1 6-7 6s-7-3-7-6a2 2 0 0 1 0-2z"/><path d="M17 9h2a2 2 0 0 1 0 4h-1"/><path d="M5 20h12"/><path d="M9 4c.5 1 .5 1.5 0 2.2M13 4c.5 1 .5 1.5 0 2.2" stroke-linecap="round"/></svg>
       </span>
-      Tasty Coffee
+      Marlow Coffee
     </a>
 
     <nav class="nav-links">
@@ -621,13 +622,13 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
 
     <div class="nav-actions">
       <div class="lang-switch" id="langSwitch">
-        <button type="button" class="lang-btn" data-lang="ru">RU</button>
         <button type="button" class="lang-btn" data-lang="en">EN</button>
         <button type="button" class="lang-btn" data-lang="fr">FR</button>
+        <button type="button" class="lang-btn" data-lang="es">ES</button>
       </div>
       <span class="status-chip" id="statusChip">
         <span class="status-dot open" id="statusDot"></span>
-        <span class="chip-label" id="statusLabel">Открыто до 19:00</span>
+        <span class="chip-label" id="statusLabel">Open until 19:00</span>
       </span>
       <button class="icon-btn" id="cartBtn" data-i18n-aria="nav.cart" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'});setFormTab('preorder');">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M6 8h12l-1.2 11.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 8z"/><path d="M9 8a3 3 0 1 1 6 0"/></svg>
@@ -650,9 +651,9 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
     <a href="#booking" class="drawer-link" data-i18n="nav.booking">Бронирование</a>
     <a href="#contact" class="drawer-link" data-i18n="nav.contact">Контакты</a>
     <div class="lang-switch" id="langSwitchMobile" style="margin-top:14px;align-self:flex-start;">
-      <button type="button" class="lang-btn" data-lang="ru">RU</button>
       <button type="button" class="lang-btn" data-lang="en">EN</button>
       <button type="button" class="lang-btn" data-lang="fr">FR</button>
+      <button type="button" class="lang-btn" data-lang="es">ES</button>
     </div>
   </div>
 </div>
@@ -667,7 +668,7 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
   <div class="wrap hero-content">
     <div class="hero-eyebrow" data-i18n="hero.eyebrow">Specialty Coffee House — Mayfair, London</div>
     <h1 data-i18n-html="hero.title">Тихий ритуал,<br><em>заваренный</em> неспеша.</h1>
-    <p class="hero-sub" data-i18n="hero.sub">Однопроисхожденческие зёрна, ручная заварка и витрина выпечки, испечённой к рассвету. Tasty Coffee — место, где Mayfair начинает утро.</p>
+    <p class="hero-sub" data-i18n="hero.sub">Однопроисхожденческие зёрна, ручная заварка и витрина выпечки, испечённой к рассвету. Marlow Coffee — место, где Mayfair начинает утро.</p>
     <div class="hero-actions">
       <a href="#booking" class="btn btn-primary" id="heroCta">
         <span data-i18n="hero.cta1">Заказать или забронировать</span>
@@ -677,7 +678,7 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
     </div>
   </div>
 
-  <div class="hero-scroll-cue"><span data-i18n="hero.scroll">Листайте</span><div class="scroll-line"></div></div>
+  <div class="hero-scroll-cue"><div class="scroll-line"></div></div>
 </section>
 
 <a href="tel:+442071234567" class="float-call" data-i18n-aria="hero.callBtn">
@@ -719,7 +720,7 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
   <div class="wrap">
     <div class="story-grid">
       <div class="story-img reveal">
-        <img src="https://images.unsplash.com/photo-1556742031-c6961e8560b0?auto=format&fit=crop&w=1100&q=80" alt="Интерьер кофейни Tasty Coffee">
+        <img src="https://images.unsplash.com/photo-1556742031-c6961e8560b0?auto=format&fit=crop&w=1100&q=80" alt="Интерьер кофейни Marlow Coffee">
       </div>
       <div class="story-text reveal">
         <div class="eyebrow" data-i18n="story.eyebrow">Our Craft</div>
@@ -753,8 +754,8 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
         <div class="day-status" id="dayStatus">
           <span class="ring" id="dayRing" style="--p:40"></span>
           <span>
-            <strong id="dayStatusTitle">Открыто сейчас</strong><br>
-            <span id="dayStatusSub">До закрытия — 4 ч 12 мин</span>
+            <strong id="dayStatusTitle">Open now</strong><br>
+            <span id="dayStatusSub">Closing in 4h 12m</span>
           </span>
         </div>
       </div>
@@ -850,7 +851,7 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
     <iframe
       src="https://www.google.com/maps?q=12+Marylebone+Lane,+London,+W1U+2NE&output=embed"
       loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-      title="Карта Tasty Coffee, 12 Marylebone Lane, London">
+      title="Карта Marlow Coffee, 12 Marylebone Lane, London">
     </iframe>
   </div>
 
@@ -861,7 +862,7 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
           <span class="brand-mark">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 8h12a2 2 0 0 1 2 2c0 3-1 6-7 6s-7-3-7-6a2 2 0 0 1 0-2z"/><path d="M17 9h2a2 2 0 0 1 0 4h-1"/><path d="M5 20h12"/></svg>
           </span>
-          Tasty Coffee
+          Marlow Coffee
         </a>
         <p data-i18n="footer.tagline">Однопроисхожденческие зёрна, ручная заварка и витрина выпечки, испечённой к рассвету — в самом сердце Mayfair.</p>
         <div class="social-row">
@@ -886,13 +887,13 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
       <div class="footer-col">
         <h4 data-i18n="footer.contact">Contact</h4>
         <a href="tel:+442071234567">+44 20 7123 4567</a>
-        <a href="https://tastycoffee.london">tastycoffee.london</a>
+        <a href="https://marlowcoffee.london">marlowcoffee.london</a>
         <a href="mailto:314.example@gmail.com">314.example@gmail.com</a>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <span data-i18n="footer.copyright">© 2026 Tasty Coffee, Mayfair London</span>
+      <span data-i18n="footer.copyright">© 2026 Marlow Coffee, Mayfair London</span>
       <span id="liveClock">—</span>
     </div>
   </div>
@@ -904,8 +905,8 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
     <div class="modal-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M20 6L9 17l-5-5"/></svg>
     </div>
-    <h3 id="modalTitle">Ваш столик уже ждёт вас!</h3>
-    <p id="modalText">Мы получили заявку и свяжемся с вами для подтверждения. До встречи в Tasty Coffee.</p>
+    <h3 id="modalTitle">Your table is waiting for you!</h3>
+    <p id="modalText">We've received your request and will be in touch to confirm. See you at Marlow Coffee.</p>
     <button class="btn btn-dark modal-close-btn" id="modalCloseBtn" data-i18n="modal.close">Хорошо, спасибо</button>
   </div>
 </div>
@@ -914,7 +915,7 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
 /* ===================================================================
    1. DATA — меню
 =================================================================== */
-// Каждый пункт меню хранит переводы name/desc для ru/en/fr.
+// Каждый пункт меню хранит переводы name/desc для en/fr/es (плюс ru — только для писем владельцу, не показывается в интерфейсе).
 // tag тоже переведён, т.к. это лейбл "Coffee/Tea/..." на карточке.
 const MENU = {
   coffee: [
@@ -922,37 +923,43 @@ const MENU = {
       i18n:{
         ru:{name:'Signature Flat White', tag:'Кофе', desc:'Двойной ристретто, шёлковое суффолкское молоко, дозированный 21г сладкий шот.'},
         en:{name:'Signature Flat White', tag:'Coffee', desc:'Double ristretto, silk-textured Suffolk milk, dialled-in for a 21g sweet shot.'},
-        fr:{name:'Flat White Signature', tag:'Café', desc:'Double ristretto, lait soyeux du Suffolk, dosé pour une extraction douce de 21g.'}
+        fr:{name:'Flat White Signature', tag:'Café', desc:'Double ristretto, lait soyeux du Suffolk, dosé pour une extraction douce de 21g.'},
+        es:{name:'Flat White de la Casa', tag:'Café', desc:'Doble ristretto, leche sedosa de Suffolk, dosificado para un shot dulce de 21g.'}
       }},
     {id:'espresso', price:3.20, img:'https://images.unsplash.com/photo-1572286258217-40142c1c6a70?auto=format&fit=crop&w=900&q=80',
       i18n:{
         ru:{name:'Double Espresso', tag:'Кофе', desc:'Тёмный шоколад, коричневый сахар, мягкая лещиновая крема — наш домашний бленд.'},
         en:{name:'Double Espresso', tag:'Coffee', desc:'Dark chocolate, brown sugar, soft hazelnut crema — our house blend.'},
-        fr:{name:'Double Espresso', tag:'Café', desc:'Chocolat noir, sucre roux, crema douce à la noisette — notre mélange maison.'}
+        fr:{name:'Double Espresso', tag:'Café', desc:'Chocolat noir, sucre roux, crema douce à la noisette — notre mélange maison.'},
+        es:{name:'Espresso Doble', tag:'Café', desc:'Chocolate negro, azúcar moreno, crema suave de avellana — nuestra mezcla de la casa.'}
       }},
     {id:'pourover', price:5.50, img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80',
       i18n:{
         ru:{name:'Ethiopia Pour Over', tag:'Кофе', desc:'Однопроисхожденческая Yirgacheffe — жасмин, персик, яркий цитрусовый финиш. Заварен V60.'},
         en:{name:'Ethiopia Pour Over', tag:'Coffee', desc:'Yirgacheffe single origin — jasmine, peach, bright citrus finish. Brewed V60.'},
-        fr:{name:'Éthiopie Pour Over', tag:'Café', desc:'Origine unique Yirgacheffe — jasmin, pêche, finale citronnée vive. Infusé en V60.'}
+        fr:{name:'Éthiopie Pour Over', tag:'Café', desc:'Origine unique Yirgacheffe — jasmin, pêche, finale citronnée vive. Infusé en V60.'},
+        es:{name:'Etiopía Pour Over', tag:'Café', desc:'Origen único Yirgacheffe — jazmín, melocotón, final cítrico brillante. Preparado en V60.'}
       }},
     {id:'cappuccino', price:4.00, img:'https://images.unsplash.com/photo-1534687941688-651ccaafbff8?auto=format&fit=crop&w=900&q=80',
       i18n:{
         ru:{name:'Cappuccino', tag:'Кофе', desc:'Плотная молочная пена, эспрессо с карамельной нотой, щепотка какао.'},
         en:{name:'Cappuccino', tag:'Coffee', desc:'Thick milk foam, caramel-toned espresso, a dusting of cocoa.'},
-        fr:{name:'Cappuccino', tag:'Café', desc:'Mousse de lait épaisse, espresso aux notes caramel, pointe de cacao.'}
+        fr:{name:'Cappuccino', tag:'Café', desc:'Mousse de lait épaisse, espresso aux notes caramel, pointe de cacao.'},
+        es:{name:'Capuchino', tag:'Café', desc:'Espuma de leche densa, espresso con notas de caramelo, un toque de cacao.'}
       }},
     {id:'coldbrew', price:4.60, img:'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=900&q=80',
       i18n:{
         ru:{name:'Slow Cold Brew', tag:'Кофе', desc:'18 часов холодной экстракции, нотки тёмной вишни и тростникового сахара.'},
         en:{name:'Slow Cold Brew', tag:'Coffee', desc:'18-hour cold extraction, notes of dark cherry and cane sugar.'},
-        fr:{name:'Cold Brew Lent', tag:'Café', desc:'Extraction à froid de 18 heures, notes de cerise noire et sucre de canne.'}
+        fr:{name:'Cold Brew Lent', tag:'Café', desc:'Extraction à froid de 18 heures, notes de cerise noire et sucre de canne.'},
+        es:{name:'Cold Brew Lento', tag:'Café', desc:'18 horas de extracción en frío, notas de cereza negra y azúcar de caña.'}
       }},
     {id:'mocha', price:4.80, img:'https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=900&q=80',
       i18n:{
         ru:{name:'House Mocha', tag:'Кофе', desc:'Бельгийский тёмный шоколад, эспрессо, лёгкая морская соль на пене.'},
         en:{name:'House Mocha', tag:'Coffee', desc:'Belgian dark chocolate, espresso, a touch of sea salt on the foam.'},
-        fr:{name:'Mocha Maison', tag:'Café', desc:'Chocolat noir belge, espresso, pointe de fleur de sel sur la mousse.'}
+        fr:{name:'Mocha Maison', tag:'Café', desc:'Chocolat noir belge, espresso, pointe de fleur de sel sur la mousse.'},
+        es:{name:'Moca de la Casa', tag:'Café', desc:'Chocolate negro belga, espresso, un toque de sal marina sobre la espuma.'}
       }}
   ],
   tea: [
@@ -960,19 +967,22 @@ const MENU = {
       i18n:{
         ru:{name:'Sencha Green', tag:'Чай', desc:'Японский лист, травяная свежесть, лёгкая морская соль на финише.'},
         en:{name:'Sencha Green', tag:'Tea', desc:'Japanese leaf, grassy freshness, a whisper of sea salt on the finish.'},
-        fr:{name:'Sencha Vert', tag:'Thé', desc:'Feuille japonaise, fraîcheur herbacée, pointe saline en finale.'}
+        fr:{name:'Sencha Vert', tag:'Thé', desc:'Feuille japonaise, fraîcheur herbacée, pointe saline en finale.'},
+        es:{name:'Sencha Verde', tag:'Té', desc:'Hoja japonesa, frescura herbal, un toque salino en el final.'}
       }},
     {id:'earlgrey', price:3.60, img:'https://images.unsplash.com/photo-1491720731493-223f97d92c21?auto=format&fit=crop&w=900&q=80',
       i18n:{
         ru:{name:'Earl Grey Royal', tag:'Чай', desc:'Бергамот, васильковые лепестки, мягкий чёрный лист высокой степени.'},
         en:{name:'Earl Grey Royal', tag:'Tea', desc:'Bergamot, cornflower petals, a soft high-grade black leaf.'},
-        fr:{name:'Earl Grey Royal', tag:'Thé', desc:'Bergamote, pétales de bleuet, feuille noire douce de qualité supérieure.'}
+        fr:{name:'Earl Grey Royal', tag:'Thé', desc:'Bergamote, pétales de bleuet, feuille noire douce de qualité supérieure.'},
+        es:{name:'Earl Grey Royal', tag:'Té', desc:'Bergamota, pétalos de aciano, una hoja negra suave de alta calidad.'}
       }},
     {id:'chamomile', price:3.50, img:'https://images.unsplash.com/photo-1484501893812-f1923a3dd028?auto=format&fit=crop&w=900&q=80',
       i18n:{
         ru:{name:'Chamomile & Honey', tag:'Чай', desc:'Сушёная ромашка, нить мёда акации, идеален к вечеру.'},
         en:{name:'Chamomile & Honey', tag:'Tea', desc:'Dried chamomile, a thread of acacia honey, perfect for the evening.'},
-        fr:{name:'Camomille & Miel', tag:'Thé', desc:"Camomille séchée, filet de miel d'acacia, parfait pour le soir."}
+        fr:{name:'Camomille & Miel', tag:'Thé', desc:"Camomille séchée, filet de miel d'acacia, parfait pour le soir."},
+        es:{name:'Manzanilla y Miel', tag:'Té', desc:'Manzanilla seca, un hilo de miel de acacia, perfecta para la noche.'}
       }}
   ],
   pastry: [
@@ -980,19 +990,22 @@ const MENU = {
       i18n:{
         ru:{name:'Butter Croissant', tag:'Выпечка', desc:'42 слоя французского масла, выпекается каждое утро в 6:00.'},
         en:{name:'Butter Croissant', tag:'Pastry', desc:'42 layers of French butter, baked fresh every morning at 6am.'},
-        fr:{name:'Croissant au Beurre', tag:'Pâtisserie', desc:'42 couches de beurre français, cuit chaque matin à 6h.'}
+        fr:{name:'Croissant au Beurre', tag:'Pâtisserie', desc:'42 couches de beurre français, cuit chaque matin à 6h.'},
+        es:{name:'Croissant de Mantequilla', tag:'Bollería', desc:'42 capas de mantequilla francesa, horneado cada mañana a las 6.'}
       }},
     {id:'almond', price:4.50, img:'https://images.unsplash.com/photo-1530610476181-d83430b64dcd?auto=format&fit=crop&w=900&q=80',
       i18n:{
         ru:{name:'Almond Tart', tag:'Выпечка', desc:'Миндальный крем, карамелизированные пластины, тонкая слойка.'},
         en:{name:'Almond Tart', tag:'Pastry', desc:'Almond cream, caramelised flakes, delicate laminated pastry.'},
-        fr:{name:'Tarte aux Amandes', tag:'Pâtisserie', desc:'Crème d\'amande, éclats caramélisés, pâte feuilletée fine.'}
+        fr:{name:'Tarte aux Amandes', tag:'Pâtisserie', desc:'Crème d\'amande, éclats caramélisés, pâte feuilletée fine.'},
+        es:{name:'Tarta de Almendra', tag:'Bollería', desc:'Crema de almendra, láminas caramelizadas, hojaldre fino.'}
       }},
     {id:'cinnamon', price:4.10, img:'https://images.unsplash.com/photo-1612366747681-e4ca6992b1e9?auto=format&fit=crop&w=900&q=80',
       i18n:{
         ru:{name:'Cinnamon Roll', tag:'Выпечка', desc:'Тёплая корица, сливочная глазурь, мягкое бриошевое тесто.'},
         en:{name:'Cinnamon Roll', tag:'Pastry', desc:'Warm cinnamon, cream-cheese glaze, soft brioche dough.'},
-        fr:{name:'Roulé à la Cannelle', tag:'Pâtisserie', desc:'Cannelle chaude, glaçage au fromage frais, pâte briochée moelleuse.'}
+        fr:{name:'Roulé à la Cannelle', tag:'Pâtisserie', desc:'Cannelle chaude, glaçage au fromage frais, pâte briochée moelleuse.'},
+        es:{name:'Rollo de Canela', tag:'Bollería', desc:'Canela cálida, glaseado de queso crema, masa de brioche suave.'}
       }}
   ],
   breakfast: [
@@ -1000,19 +1013,22 @@ const MENU = {
       i18n:{
         ru:{name:'Avocado Sourdough', tag:'Завтраки', desc:'Хлеб на закваске, авокадо, лимон, чили-масло, морская соль.'},
         en:{name:'Avocado Sourdough', tag:'Breakfast', desc:'Sourdough bread, avocado, lemon, chilli oil, sea salt.'},
-        fr:{name:'Avocat sur Levain', tag:'Petit-déjeuner', desc:'Pain au levain, avocat, citron, huile pimentée, fleur de sel.'}
+        fr:{name:'Avocat sur Levain', tag:'Petit-déjeuner', desc:'Pain au levain, avocat, citron, huile pimentée, fleur de sel.'},
+        es:{name:'Aguacate en Masa Madre', tag:'Desayuno', desc:'Pan de masa madre, aguacate, limón, aceite picante, sal marina.'}
       }},
     {id:'eggsbenny', price:9.20, img:'https://images.unsplash.com/photo-1664192579086-fe10c4de4d46?auto=format&fit=crop&w=900&q=80',
       i18n:{
         ru:{name:'Eggs Benedict', tag:'Завтраки', desc:'Пашот, голландский соус, ветчина из Суффолка, английская маффин.'},
         en:{name:'Eggs Benedict', tag:'Breakfast', desc:'Poached eggs, hollandaise, Suffolk ham, English muffin.'},
-        fr:{name:'Œufs Benedict', tag:'Petit-déjeuner', desc:'Œufs pochés, sauce hollandaise, jambon du Suffolk, muffin anglais.'}
+        fr:{name:'Œufs Benedict', tag:'Petit-déjeuner', desc:'Œufs pochés, sauce hollandaise, jambon du Suffolk, muffin anglais.'},
+        es:{name:'Huevos Benedict', tag:'Desayuno', desc:'Huevos escalfados, salsa holandesa, jamón de Suffolk, muffin inglés.'}
       }},
     {id:'granola', price:6.50, img:'https://images.unsplash.com/photo-1725883691833-97103ecd582a?auto=format&fit=crop&w=900&q=80',
       i18n:{
         ru:{name:'House Granola Bowl', tag:'Завтраки', desc:'Овёс, кленовый орех, греческий йогурт, сезонные ягоды.'},
         en:{name:'House Granola Bowl', tag:'Breakfast', desc:'Oats, maple walnut, Greek yoghurt, seasonal berries.'},
-        fr:{name:'Bol de Granola Maison', tag:'Petit-déjeuner', desc:'Avoine, noix au sirop d\'érable, yaourt grec, fruits de saison.'}
+        fr:{name:'Bol de Granola Maison', tag:'Petit-déjeuner', desc:'Avoine, noix au sirop d\'érable, yaourt grec, fruits de saison.'},
+        es:{name:'Bol de Granola de la Casa', tag:'Desayuno', desc:'Avena, nuez con sirope de arce, yogur griego, frutos de temporada.'}
       }}
   ]
 };
@@ -1027,8 +1043,8 @@ const I18N = {
     'nav.menu':'Меню', 'nav.story':'История', 'nav.booking':'Бронирование', 'nav.contact':'Контакты', 'nav.cart':'Корзина', 'nav.close':'Закрыть',
     'hero.eyebrow':'Specialty Coffee House — Mayfair, London',
     'hero.title':'Тихий ритуал,<br><em>заваренный</em> неспеша.',
-    'hero.sub':'Однопроисхожденческие зёрна, ручная заварка и витрина выпечки, испечённой к рассвету. Tasty Coffee — место, где Mayfair начинает утро.',
-    'hero.cta1':'Заказать или забронировать', 'hero.cta2':'Открыть меню', 'hero.scroll':'Листайте', 'hero.callBtn':'Позвонить в Tasty Coffee',
+    'hero.sub':'Однопроисхожденческие зёрна, ручная заварка и витрина выпечки, испечённой к рассвету. Marlow Coffee — место, где Mayfair начинает утро.',
+    'hero.cta1':'Заказать или забронировать', 'hero.cta2':'Открыть меню', 'hero.scroll':'Листайте', 'hero.callBtn':'Позвонить в Marlow Coffee',
     'marquee.text':'<b>01</b> Однопроисхожденческие зёрна <b>02</b> Ручная заварка <b>03</b> Выпечка к рассвету <b>04</b> Mayfair, London<b>—</b>',
     'menu.eyebrow':'The Menu', 'menu.title':'Подборка дома.',
     'menu.subtitle':'Готовим ежедневно. Закупаем этично. Подаём неспеша — добавьте в заказ и забронируйте самовывоз ниже.',
@@ -1055,18 +1071,18 @@ const I18N = {
     'booking.opensToday':(t)=>`Откроемся сегодня в ${t}`, 'booking.opensTomorrow':(t)=>`Откроемся завтра в ${t}`,
     'footer.tagline':'Однопроисхожденческие зёрна, ручная заварка и витрина выпечки, испечённой к рассвету — в самом сердце Mayfair.',
     'footer.findUs':'Find Us', 'footer.hours':'Opening Hours', 'footer.monFri':'Пн – Пт', 'footer.sat':'Суббота', 'footer.sun':'Воскресенье',
-    'footer.timezone':'Время указано по Лондону (GMT/BST)', 'footer.contact':'Contact', 'footer.copyright':'© 2026 Tasty Coffee, Mayfair London',
+    'footer.timezone':'Время указано по Лондону (GMT/BST)', 'footer.contact':'Contact', 'footer.copyright':'© 2026 Marlow Coffee, Mayfair London',
     'footer.londonTime':(h,m)=>`Время в Лондоне — ${h}:${m}`,
     'modal.close':'Хорошо, спасибо',
-    'modal.bookingTitle':'Ваш столик уже ждёт вас!', 'modal.bookingText':'Заявка отправлена — мы свяжемся для подтверждения. До встречи в Tasty Coffee.',
+    'modal.bookingTitle':'Ваш столик уже ждёт вас!', 'modal.bookingText':'Заявка отправлена — мы свяжемся для подтверждения. До встречи в Marlow Coffee.',
     'modal.preorderTitle':'Ваш идеальный кофе уже ждёт вас!', 'modal.preorderText':'Предзаказ принят — заберём всё к указанному времени, без ожидания в очереди.'
   },
   en:{
     'nav.menu':'Menu', 'nav.story':'Story', 'nav.booking':'Booking', 'nav.contact':'Contact', 'nav.cart':'Cart', 'nav.close':'Close',
     'hero.eyebrow':'Specialty Coffee House — Mayfair, London',
     'hero.title':'A quiet ritual,<br>brewed <em>slowly</em>.',
-    'hero.sub':'Single-origin beans, hand-poured rituals and a cabinet full of pastries baked at sunrise. Tasty Coffee is where Mayfair starts its morning.',
-    'hero.cta1':'Order or reserve a table', 'hero.cta2':'View menu', 'hero.scroll':'Scroll', 'hero.callBtn':'Call Tasty Coffee',
+    'hero.sub':'Single-origin beans, hand-poured rituals and a cabinet full of pastries baked at sunrise. Marlow Coffee is where Mayfair starts its morning.',
+    'hero.cta1':'Order or reserve a table', 'hero.cta2':'View menu', 'hero.scroll':'Scroll', 'hero.callBtn':'Call Marlow Coffee',
     'marquee.text':'<b>01</b> Single-origin beans <b>02</b> Hand-poured rituals <b>03</b> Pastries baked at sunrise <b>04</b> Mayfair, London<b>—</b>',
     'menu.eyebrow':'The Menu', 'menu.title':'House selection.',
     'menu.subtitle':'Crafted daily. Sourced ethically. Served slowly — add to your order and book pickup below.',
@@ -1093,18 +1109,18 @@ const I18N = {
     'booking.opensToday':(t)=>`Opening today at ${t}`, 'booking.opensTomorrow':(t)=>`Opening tomorrow at ${t}`,
     'footer.tagline':'Single-origin beans, hand-poured rituals and a cabinet full of pastries baked at sunrise — right in the heart of Mayfair.',
     'footer.findUs':'Find Us', 'footer.hours':'Opening Hours', 'footer.monFri':'Mon – Fri', 'footer.sat':'Saturday', 'footer.sun':'Sunday',
-    'footer.timezone':'Times shown are London time (GMT/BST)', 'footer.contact':'Contact', 'footer.copyright':'© 2026 Tasty Coffee, Mayfair London',
+    'footer.timezone':'Times shown are London time (GMT/BST)', 'footer.contact':'Contact', 'footer.copyright':'© 2026 Marlow Coffee, Mayfair London',
     'footer.londonTime':(h,m)=>`London time — ${h}:${m}`,
     'modal.close':'Great, thanks',
-    'modal.bookingTitle':'Your table is waiting for you!', 'modal.bookingText':"Request sent — we'll be in touch to confirm. See you at Tasty Coffee.",
+    'modal.bookingTitle':'Your table is waiting for you!', 'modal.bookingText':"Request sent — we'll be in touch to confirm. See you at Marlow Coffee.",
     'modal.preorderTitle':'Your perfect coffee is waiting!', 'modal.preorderText':"Pre-order received — we'll have it ready at your chosen time, no queueing."
   },
   fr:{
     'nav.menu':'Menu', 'nav.story':'Histoire', 'nav.booking':'Réservation', 'nav.contact':'Contact', 'nav.cart':'Panier', 'nav.close':'Fermer',
     'hero.eyebrow':'Maison de café de spécialité — Mayfair, Londres',
     'hero.title':'Un rituel paisible,<br>infusé <em>lentement</em>.',
-    'hero.sub':"Grains d'origine unique, rituels infusés à la main et une vitrine de pâtisseries cuites à l'aube. Tasty Coffee, où Mayfair commence sa matinée.",
-    'hero.cta1':'Commander ou réserver', 'hero.cta2':'Voir le menu', 'hero.scroll':'Défiler', 'hero.callBtn':'Appeler Tasty Coffee',
+    'hero.sub':"Grains d'origine unique, rituels infusés à la main et une vitrine de pâtisseries cuites à l'aube. Marlow Coffee, où Mayfair commence sa matinée.",
+    'hero.cta1':'Commander ou réserver', 'hero.cta2':'Voir le menu', 'hero.scroll':'Défiler', 'hero.callBtn':'Appeler Marlow Coffee',
     'marquee.text':"<b>01</b> Grains d'origine unique <b>02</b> Rituels infusés à la main <b>03</b> Pâtisseries cuites à l'aube <b>04</b> Mayfair, Londres<b>—</b>",
     'menu.eyebrow':'Le Menu', 'menu.title':'Sélection maison.',
     'menu.subtitle':'Préparé chaque jour. Sourcé de façon éthique. Servi sans hâte — ajoutez à votre commande et réservez un retrait ci-dessous.',
@@ -1131,31 +1147,71 @@ const I18N = {
     'booking.opensToday':(t)=>`Ouverture aujourd'hui à ${t}`, 'booking.opensTomorrow':(t)=>`Ouverture demain à ${t}`,
     'footer.tagline':"Grains d'origine unique, rituels infusés à la main et une vitrine de pâtisseries cuites à l'aube — au cœur de Mayfair.",
     'footer.findUs':'Nous trouver', 'footer.hours':"Horaires d'ouverture", 'footer.monFri':'Lun – Ven', 'footer.sat':'Samedi', 'footer.sun':'Dimanche',
-    'footer.timezone':'Heures affichées selon Londres (GMT/BST)', 'footer.contact':'Contact', 'footer.copyright':'© 2026 Tasty Coffee, Mayfair London',
+    'footer.timezone':'Heures affichées selon Londres (GMT/BST)', 'footer.contact':'Contact', 'footer.copyright':'© 2026 Marlow Coffee, Mayfair London',
     'footer.londonTime':(h,m)=>`Heure de Londres — ${h}:${m}`,
     'modal.close':"D'accord, merci",
-    'modal.bookingTitle':'Votre table vous attend !', 'modal.bookingText':'Demande envoyée — nous vous contacterons pour confirmer. À bientôt chez Tasty Coffee.',
+    'modal.bookingTitle':'Votre table vous attend !', 'modal.bookingText':'Demande envoyée — nous vous contacterons pour confirmer. À bientôt chez Marlow Coffee.',
     'modal.preorderTitle':'Votre café parfait vous attend !', 'modal.preorderText':"Précommande reçue — tout sera prêt à l'heure choisie, sans file d'attente."
+  },
+  es:{
+    'nav.menu':'Menú', 'nav.story':'Historia', 'nav.booking':'Reservas', 'nav.contact':'Contacto', 'nav.cart':'Carrito', 'nav.close':'Cerrar',
+    'hero.eyebrow':'Café de especialidad — Mayfair, Londres',
+    'hero.title':'Un ritual tranquilo,<br>preparado con <em>calma</em>.',
+    'hero.sub':'Granos de origen único, rituales preparados a mano y una vitrina de bollería horneada al amanecer. Marlow Coffee es donde Mayfair empieza su mañana.',
+    'hero.cta1':'Pedir o reservar mesa', 'hero.cta2':'Ver el menú', 'hero.scroll':'Desliza', 'hero.callBtn':'Llamar a Marlow Coffee',
+    'marquee.text':'<b>01</b> Granos de origen único <b>02</b> Rituales preparados a mano <b>03</b> Bollería horneada al amanecer <b>04</b> Mayfair, Londres<b>—</b>',
+    'menu.eyebrow':'El Menú', 'menu.title':'Selección de la casa.',
+    'menu.subtitle':'Preparado a diario. Origen ético. Servido sin prisa — añade a tu pedido y reserva la recogida abajo.',
+    'menu.tab.coffee':'Café', 'menu.tab.tea':'Té', 'menu.tab.pastry':'Bollería', 'menu.tab.breakfast':'Desayuno',
+    'menu.add':'Añadir', 'menu.less':'Menos', 'menu.more':'Más',
+    'story.eyebrow':'Nuestro Oficio', 'story.title':'Tostado con intención,<br>servido con cuidado.',
+    'story.p1':'Cada semana traemos granos verdes directamente de pequeñas cooperativas agrícolas — sin intermediarios, sin comprometer el sabor. El tostado se dosifica a mano en lotes de 8kg para revelar el carácter de cada origen.',
+    'story.p2':'Nuestros baristas se forman internamente al menos 6 semanas antes de ponerse frente a la máquina — porque la taza perfecta empieza por respetar el grano.',
+    'story.stat1':'países de origen', 'story.stat2':'primera taza del día', 'story.stat3':'año de fundación',
+    'booking.eyebrow':'Reservar o Pedir por Adelantado', 'booking.title':'Una mesa junto a la ventana — o tu café listo en el mostrador.',
+    'booking.tab.table':'Reserva de mesa', 'booking.tab.preorder':'Pedido anticipado y recogida',
+    'booking.closedBanner':'<b>Ahora estamos cerrados.</b><br>Las reservas y pedidos anticipados no se pueden enviar fuera del horario de apertura (ver hora de Londres abajo). Deja tu solicitud — te contactaremos en cuanto abramos, o llámanos directamente.',
+    'booking.field.date':'Fecha', 'booking.field.time':'Hora', 'booking.field.guests':'Comensales',
+    'booking.field.name':'Tu nombre', 'booking.field.phone':'Teléfono', 'booking.field.notes':'Notas (opcional)',
+    'booking.field.notesPlaceholder':'Cumpleaños, alergias, aniversario…', 'booking.field.pickupTime':'Hora de recogida',
+    'booking.guests.1':'1 persona', 'booking.guests.2':'2 personas', 'booking.guests.3':'3 personas', 'booking.guests.4':'4 personas', 'booking.guests.5':'5+ personas',
+    'booking.submitTable':'Confirmar reserva', 'booking.submitPreorder':'Confirmar pedido',
+    'booking.submitNoteTable':'Te enviaremos un correo y confirmaremos tu mesa personalmente.',
+    'booking.submitNotePreorder':'Tendremos tu pedido listo a la hora elegida — sin colas.',
+    'booking.yourItems':'Tus artículos', 'booking.emptyCart':'Tu cesta está vacía — elige algo en la pestaña Menú arriba ☝',
+    'booking.total':'Subtotal', 'booking.sending':'Enviando…',
+    'booking.openNow':'Abierto ahora', 'booking.closedNow':'Actualmente cerrado',
+    'booking.openUntil':(t)=>`Abierto hasta las ${t}`, 'booking.timeLeft':(h,m)=>`Cierra en ${h}h ${m}m`,
+    'booking.opensToday':(t)=>`Abrimos hoy a las ${t}`, 'booking.opensTomorrow':(t)=>`Abrimos mañana a las ${t}`,
+    'footer.tagline':'Granos de origen único, rituales preparados a mano y una vitrina de bollería horneada al amanecer — en el corazón de Mayfair.',
+    'footer.findUs':'Encuéntranos', 'footer.hours':'Horario de apertura', 'footer.monFri':'Lun – Vie', 'footer.sat':'Sábado', 'footer.sun':'Domingo',
+    'footer.timezone':'Los horarios mostrados son hora de Londres (GMT/BST)', 'footer.contact':'Contacto', 'footer.copyright':'© 2026 Marlow Coffee, Mayfair London',
+    'footer.londonTime':(h,m)=>`Hora de Londres — ${h}:${m}`,
+    'modal.close':'De acuerdo, gracias',
+    'modal.bookingTitle':'¡Tu mesa ya te espera!', 'modal.bookingText':'Solicitud enviada — te contactaremos para confirmar. Te esperamos en Marlow Coffee.',
+    'modal.preorderTitle':'¡Tu café perfecto ya te espera!', 'modal.preorderText':'Pedido recibido — todo estará listo a la hora elegida, sin colas.'
   }
 };
 
+const AVAILABLE_LANGS = ['en','fr','es']; // языки, выбираемые в интерфейсе (ru используется только для писем владельцу)
+
 let currentLang = (function(){
   try{
-    const saved = localStorage.getItem('tastyCoffeeLang');
-    if(saved && I18N[saved]) return saved;
+    const saved = localStorage.getItem('marlowCoffeeLang');
+    if(saved && AVAILABLE_LANGS.includes(saved)) return saved;
   }catch(e){}
-  return 'ru';
+  return 'en';
 })();
 
 function t(key, ...args){
-  const entry = I18N[currentLang]?.[key] ?? I18N.ru[key] ?? key;
+  const entry = I18N[currentLang]?.[key] ?? I18N.en[key] ?? key;
   return typeof entry === 'function' ? entry(...args) : entry;
 }
 
 function applyLanguage(lang){
   if(!I18N[lang]) return;
   currentLang = lang;
-  try{ localStorage.setItem('tastyCoffeeLang', lang); }catch(e){}
+  try{ localStorage.setItem('marlowCoffeeLang', lang); }catch(e){}
 
   document.documentElement.lang = lang;
 
@@ -1199,7 +1255,7 @@ function renderMenu(){
     panel.className = 'menu-panel' + (cat===activeTab ? ' active' : '');
     panel.id = 'panel-'+cat;
     panel.innerHTML = MENU[cat].map(item => {
-      const tr = item.i18n[currentLang] || item.i18n.ru;
+      const tr = item.i18n[currentLang] || item.i18n.en;
       return `
       <div class="dish-card">
         <div class="dish-img">
@@ -1316,7 +1372,7 @@ function renderOrderSummary(){
   let total = 0;
   orderRows.innerHTML = ids.map(id=>{
     const item = findItem(id);
-    const tr = item.i18n[currentLang] || item.i18n.ru;
+    const tr = item.i18n[currentLang] || item.i18n.en;
     const qty = cart[id];
     const sum = item.price * qty;
     total += sum;
@@ -1462,7 +1518,7 @@ async function sendToWeb3Forms(payload){
       access_key: WEB3FORMS_ACCESS_KEY,
       to: '314.example@gmail.com',
       subject: payload.subject,
-      from_name: 'Tasty Coffee — сайт',
+      from_name: 'Marlow Coffee — сайт',
       ...payload.fields
     })
   });
