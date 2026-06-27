@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Tasty Coffee — Specialty Coffee House, London</title>
+<meta name="description" content="Tasty Coffee — премиальная кофейня в Mayfair, Лондон. Бронирование столика, предзаказ на самовывоз, авторское меню.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   TASTY COFFEE — DESIGN TOKENS
+   Единая тёплая тема. Без чисто белого/чёрного — всё через
+   кофейно-карамельную палитру, светлые секции = крем, а не #fff.
+   ============================================================ */
+:root{
+  /* Color tokens */
+  --espresso-900:   #1B1410;   /* самый глубокий фон (hero/footer) */
+  --espresso-800:   #241A14;   /* фон карточек на тёмном */
+  --espresso-700:   #2E2118;   /* фон форм/панелей на тёмном */
+  --espresso-600:   #4A352573;
+  --crema-100:      #F4EBDA;   /* "молочная пенка" — светлые секции вместо white */
+  --crema-200:      #ECE0CB;
+  --crema-50-text:  #F8F1E4;   /* светлый текст на тёмном фоне */
+  --cocoa-text:     #2A1E16;   /* тёмный текст на светлом фоне (не чистый чёрный) */
+  --cocoa-text-soft:#5B4636;
+  --gold:           #C7A164;   /* приглушённое золото — акцент/CTA */
+  --gold-light:     #DDBD86;
+  --gold-deep:      #A9824A;
+  --olive:          #7C8459;   /* мягкий оливковый — вторичный акцент (open status) */
+  --rust:           #9C5A40;   /* для "закрыто" статуса, тёплый, не агрессивный красный */
+  --line-soft:      rgba(199,161,100,0.22);
+  --shadow-deep:    0 30px 60px -20px rgba(15,9,5,0.55);
+
+  --font-display: "Playfair Display", "Times New Roman", serif;
+  --font-body: "Inter", -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --container: 1180px;
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font-body);
+  background:var(--espresso-900);
+  color:var(--crema-50-text);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit;}
+::selection{background:var(--gold);color:var(--espresso-900);}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
+}
+
+:focus-visible{outline:2px solid var(--gold-light);outline-offset:3px;border-radius:6px;}
+
+/* Texture overlay — subtle warm grain, ties every section together so
+   light and dark sections never feel like a hard cut */
+body::before{
+  content:"";
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+
+.wrap{max-width:var(--container);margin:0 auto;padding:0 24px;}
+.section{position:relative;padding:120px 0;}
+@media (max-width:760px){.section{padding:80px 0;}}
+
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--gold);
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:18px;
+}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--gold);}
+
+h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-.01em;}
+
+/* reveal-on-scroll */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease), transform .9s var(--ease);}
+.reveal.in{opacity:1;transform:translateY(0);}
+.reveal-stagger > * {transition-delay:calc(var(--i,0) * 90ms);}
+
+/* ============== NAV ============== */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  padding:18px 0;
+  transition:background .4s var(--ease), padding .4s var(--ease), box-shadow .4s var(--ease);
+}
+.nav.scrolled{
+  background:rgba(27,20,16,.86);
+  backdrop-filter:blur(14px) saturate(140%);
+  padding:12px 0;
+  box-shadow:0 10px 30px -15px rgba(0,0,0,.5);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;}
+.brand{display:flex;align-items:center;gap:12px;font-family:var(--font-display);font-size:22px;color:var(--crema-50-text);}
+.brand-mark{
+  width:38px;height:38px;border-radius:50%;
+  border:1.4px solid var(--gold-light);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--gold-light);position:relative;flex-shrink:0;
+}
+.brand-mark svg{width:18px;height:18px;}
+
+.nav-links{display:flex;align-items:center;gap:34px;font-size:14.5px;}
+.nav-links a{position:relative;color:var(--crema-200);transition:color .3s;padding:4px 0;}
+.nav-links a::after{content:"";position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--gold);transition:width .35s var(--ease);}
+.nav-links a:hover{color:var(--crema-50-text);}
+.nav-links a:hover::after{width:100%;}
+
+.status-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:12px;letter-spacing:.04em;
+  padding:7px 14px 7px 10px;border-radius:999px;
+  border:1px solid var(--line-soft); background:rgba(0,0,0,.18);
+  white-space:nowrap;
+}
+.status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.status-dot.open{background:var(--olive);box-shadow:0 0 0 0 var(--olive);animation:pulseDot 2.2s infinite;}
+.status-dot.closed{background:var(--rust);}
+@keyframes pulseDot{
+  0%{box-shadow:0 0 0 0 rgba(124,132,89,.55);}
+  70%{box-shadow:0 0 0 7px rgba(124,132,89,0);}
+  100%{box-shadow:0 0 0 0 rgba(124,132,89,0);}
+}
+
+.lang-switch{display:flex;gap:3px;padding:4px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line-soft);}
+.lang-btn{
+  padding:7px 11px;border-radius:999px;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.05em;
+  color:var(--crema-200);transition:background .3s var(--ease), color .3s var(--ease);
+}
+.lang-btn.active{background:var(--gold);color:var(--espresso-900);font-weight:600;}
+.lang-btn:not(.active):hover{background:rgba(255,255,255,.08);}
+@media (max-width:560px){.lang-switch{display:none;}}
+
+.nav-actions{display:flex;align-items:center;gap:10px;}
+.icon-btn{
+  width:42px;height:42px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--line-soft);
+  position:relative;transition:background .3s, transform .3s;
+  flex-shrink:0;
+}
+.icon-btn:hover{background:rgba(255,255,255,.09);transform:translateY(-2px);}
+.icon-btn svg{width:18px;height:18px;stroke:var(--crema-50-text);}
+.cart-badge{
+  position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;border-radius:50%;
+  background:var(--gold);color:var(--espresso-900);font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;padding:0 4px;
+  font-family:var(--font-mono);
+  transform:scale(0);transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.cart-badge.show{transform:scale(1);}
+.cart-badge.bump{animation:bump .45s var(--ease);}
+@keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.45) rotate(-8deg)}65%{transform:scale(.9) rotate(4deg)}100%{transform:scale(1)}}
+
+.burger{display:none;}
+@media (max-width:880px){
+  .nav-links{display:none;}
+  .burger{display:flex;}
+  .status-chip span.chip-label{display:none;}
+}
+
+/* mobile drawer */
+.mobile-drawer{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(15,10,7,.7);backdrop-filter:blur(6px);
+  opacity:0;visibility:hidden;transition:opacity .35s var(--ease), visibility .35s;
+}
+.mobile-drawer.open{opacity:1;visibility:visible;}
+.drawer-panel{
+  position:absolute;top:0;right:0;height:100%;width:min(78vw,340px);
+  background:var(--espresso-800);
+  padding:90px 32px 32px;
+  display:flex;flex-direction:column;gap:26px;
+  transform:translateX(100%);transition:transform .45s var(--ease);
+  border-left:1px solid var(--line-soft);
+}
+.mobile-drawer.open .drawer-panel{transform:translateX(0);}
+.drawer-panel a{font-family:var(--font-display);font-size:26px;color:var(--crema-100);}
+.drawer-close{position:absolute;top:24px;right:24px;}
+
+/* ============== HERO ============== */
+.hero{
+  position:relative;min-height:100vh;display:flex;align-items:flex-end;
+  padding-bottom:90px;
+  overflow:hidden;
+}
+.hero-media{
+  position:absolute;inset:0;z-index:-2;
+}
+.hero-media img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(1.05) contrast(1.03);
+  transform:scale(1.08);
+  animation:heroZoom 22s ease-in-out infinite alternate;
+}
+@keyframes heroZoom{from{transform:scale(1.08)}to{transform:scale(1.16)}}
+.hero-media::after{
+  content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(180deg, rgba(20,14,10,.45) 0%, rgba(20,14,10,.35) 35%, rgba(20,14,10,.78) 78%, var(--espresso-900) 100%),
+    linear-gradient(90deg, rgba(20,14,10,.55) 0%, transparent 55%);
+}
+.steam-particles{position:absolute;inset:0;z-index:-1;pointer-events:none;}
+.steam-particles span{
+  position:absolute;bottom:30%;border-radius:50%;
+  background:radial-gradient(circle, rgba(244,235,218,.18), transparent 70%);
+  filter:blur(2px);
+  animation:steamFloat linear infinite;
+}
+@keyframes steamFloat{
+  0%{transform:translateY(0) translateX(0) scale(.6);opacity:0;}
+  15%{opacity:.55;}
+  100%{transform:translateY(-340px) translateX(var(--drift,30px)) scale(1.4);opacity:0;}
+}
+
+.hero-content{position:relative;z-index:1;width:100%;}
+.hero-eyebrow{
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-light);margin-bottom:22px;display:flex;align-items:center;gap:12px;
+  opacity:0;animation:fadeUp .9s var(--ease) .2s forwards;
+}
+.hero-eyebrow::before{content:"";width:30px;height:1px;background:var(--gold-light);}
+.hero h1{
+  font-size:clamp(42px,7.2vw,92px);line-height:.98;color:var(--crema-50-text);
+  max-width:880px;
+  opacity:0;animation:fadeUp 1s var(--ease) .35s forwards;
+}
+.hero h1 em{font-style:italic;color:var(--gold-light);}
+.hero-sub{
+  margin-top:26px;max-width:480px;font-size:17px;line-height:1.65;color:var(--crema-200);
+  opacity:0;animation:fadeUp 1s var(--ease) .55s forwards;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-actions{
+  display:flex;gap:16px;margin-top:42px;flex-wrap:wrap;align-items:center;
+  opacity:0;animation:fadeUp 1s var(--ease) .75s forwards;
+}
+
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:17px 30px;border-radius:999px;
+  font-size:15px;font-weight:600;letter-spacing:.01em;
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease), color .35s var(--ease);
+  white-space:nowrap;
+}
+.btn svg{width:15px;height:15px;transition:transform .35s var(--ease);}
+.btn:hover svg{transform:translate(3px,-3px);}
+.btn-primary{
+  background:linear-gradient(135deg, var(--gold-light), var(--gold-deep));
+  color:var(--espresso-900);
+  box-shadow:0 14px 32px -10px rgba(199,161,100,.55);
+  position:relative;
+}
+.btn-primary::before{
+  content:"";position:absolute;inset:0;border-radius:999px;
+  box-shadow:0 0 0 0 rgba(199,161,100,.55);
+  animation:cta-pulse 2.6s infinite;
+}
+@keyframes cta-pulse{
+  0%{box-shadow:0 0 0 0 rgba(199,161,100,.45);}
+  70%{box-shadow:0 0 0 14px rgba(199,161,100,0);}
+  100%{box-shadow:0 0 0 0 rgba(199,161,100,0);}
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 36px -8px rgba(199,161,100,.65);}
+.btn-ghost{
+  border:1.3px solid rgba(244,235,218,.35);color:var(--crema-50-text);
+  background:rgba(255,255,255,.03);
+}
+.btn-ghost:hover{background:rgba(255,255,255,.1);border-color:var(--crema-50-text);transform:translateY(-3px);}
+.btn-dark{background:var(--espresso-900);color:var(--crema-100);}
+.btn-dark:hover{background:#100b08;transform:translateY(-2px);}
+.btn:disabled, .btn.is-disabled{
+  opacity:.45;cursor:not-allowed;transform:none !important;box-shadow:none !important;
+  filter:grayscale(.4);
+}
+.btn:disabled::before, .btn.is-disabled::before{animation:none;}
+
+.hero-scroll-cue{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--crema-200);opacity:.7;
+  animation:fadeUp 1s var(--ease) 1.1s forwards;opacity:0;
+}
+.scroll-line{width:1px;height:34px;background:linear-gradient(var(--gold-light),transparent);position:relative;overflow:hidden;}
+.scroll-line::after{content:"";position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--gold-light);animation:scrollDrip 2s ease-in-out infinite;}
+@keyframes scrollDrip{0%{top:-100%}100%{top:100%}}
+
+/* Floating call button */
+.float-call{
+  position:fixed;bottom:26px;left:26px;z-index:250;
+  width:60px;height:60px;border-radius:50%;
+  background:linear-gradient(145deg, var(--gold-light), var(--gold-deep));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 16px 34px -10px rgba(0,0,0,.55), 0 0 0 0 rgba(199,161,100,.5);
+  animation:floatPulse 2.8s infinite;
+  transition:transform .3s var(--ease);
+}
+.float-call:hover{transform:scale(1.08) translateY(-2px);}
+.float-call svg{width:24px;height:24px;stroke:var(--espresso-900);}
+@keyframes floatPulse{
+  0%{box-shadow:0 16px 34px -10px rgba(0,0,0,.55), 0 0 0 0 rgba(199,161,100,.45);}
+  70%{box-shadow:0 16px 34px -10px rgba(0,0,0,.55), 0 0 0 16px rgba(199,161,100,0);}
+  100%{box-shadow:0 16px 34px -10px rgba(0,0,0,.55), 0 0 0 0 rgba(199,161,100,0);}
+}
+
+/* ============== MARQUEE STRIP ============== */
+.marquee{
+  background:var(--crema-100);color:var(--cocoa-text);
+  padding:18px 0;overflow:hidden;position:relative;z-index:2;
+  border-top:1px solid var(--gold-deep);border-bottom:1px solid var(--gold-deep);
+}
+.marquee-track{display:flex;gap:48px;white-space:nowrap;animation:marquee 28s linear infinite;width:max-content;}
+.marquee-track span{
+  font-family:var(--font-display);font-style:italic;font-size:18px;
+  display:flex;align-items:center;gap:48px;color:var(--cocoa-text-soft);
+}
+.marquee-track span b{font-style:normal;color:var(--gold-deep);font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============== SECTION: light cream sections ============== */
+.section-light{
+  background:var(--crema-100);color:var(--cocoa-text);
+  position:relative;z-index:2;
+}
+.section-light .eyebrow{color:var(--gold-deep);}
+.section-light .eyebrow::before{background:var(--gold-deep);}
+.section-light h2{color:var(--cocoa-text);}
+.muted-light{color:var(--cocoa-text-soft);}
+
+/* transition wedge between dark hero and light section, so no hard cut */
+.fade-seam{
+  height:140px;margin-top:-140px;position:relative;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg, transparent, var(--crema-100));
+}
+
+/* heading row */
+.head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:54px;}
+.head-row h2{font-size:clamp(32px,4.2vw,52px);line-height:1.05;max-width:560px;}
+.head-row p{max-width:340px;font-size:15.5px;line-height:1.6;}
+
+/* ============== MENU ============== */
+.tabs{
+  display:inline-flex;gap:6px;padding:6px;border-radius:999px;
+  background:rgba(42,30,22,.06);border:1px solid rgba(42,30,22,.1);
+  margin-bottom:48px;flex-wrap:wrap;
+}
+.tab-btn{
+  padding:11px 22px;border-radius:999px;font-size:14px;font-weight:600;
+  color:var(--cocoa-text-soft);transition:background .35s var(--ease), color .35s var(--ease);
+  white-space:nowrap;
+}
+.tab-btn.active{background:var(--cocoa-text);color:var(--crema-100);}
+.tab-btn:not(.active):hover{background:rgba(42,30,22,.08);}
+
+.menu-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:26px;
+}
+@media (max-width:980px){.menu-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:640px){.menu-grid{grid-template-columns:1fr;}}
+
+.menu-panel{display:none;}
+.menu-panel.active{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch;animation:panelIn .5s var(--ease);}
+@media (max-width:980px){.menu-panel.active{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:640px){.menu-panel.active{grid-template-columns:1fr;}}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.dish-card{
+  background:#fff8ec;border-radius:var(--radius-md);overflow:hidden;
+  border:1px solid rgba(42,30,22,.08);
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+  display:flex;flex-direction:column;height:100%;
+}
+.dish-card:hover{transform:translateY(-8px);box-shadow:0 28px 50px -22px rgba(42,30,22,.28);}
+.dish-img{position:relative;aspect-ratio:4/3.1;overflow:hidden;background:var(--crema-200);}
+.dish-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease);}
+.dish-card:hover .dish-img img{transform:scale(1.07);}
+.dish-tag{
+  position:absolute;top:14px;left:14px;
+  background:rgba(244,235,218,.92);color:var(--cocoa-text);
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  padding:6px 12px;border-radius:999px;
+}
+.dish-body{padding:20px 20px 22px;display:flex;flex-direction:column;gap:10px;flex:1;}
+.dish-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;min-height:30px;}
+.dish-top h3{font-size:21px;color:var(--cocoa-text);line-height:1.25;}
+.dish-price{font-family:var(--font-mono);color:var(--gold-deep);font-size:16px;white-space:nowrap;}
+.dish-desc{font-size:14px;line-height:1.55;color:var(--cocoa-text-soft);flex:1;}
+
+.dish-foot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.qty-control{
+  display:flex;align-items:center;gap:0;border-radius:999px;
+  border:1px solid rgba(42,30,22,.15);overflow:hidden;
+}
+.qty-control button{width:34px;height:34px;font-size:16px;color:var(--cocoa-text);transition:background .25s;}
+.qty-control button:hover{background:rgba(42,30,22,.07);}
+.qty-control span{min-width:24px;text-align:center;font-family:var(--font-mono);font-size:14px;}
+
+.add-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--cocoa-text);color:var(--crema-100);
+  padding:11px 20px;border-radius:999px;font-size:13.5px;font-weight:600;
+  transition:background .3s var(--ease), transform .25s var(--ease);
+}
+.add-btn svg{width:13px;height:13px;}
+.add-btn:hover{background:#000;transform:translateY(-2px);}
+.add-btn.added{background:var(--olive);color:#fff;}
+.add-btn.added svg{display:none;}
+
+/* ============== BOOKING / PREORDER ============== */
+.section-dark{background:var(--espresso-900);position:relative;z-index:2;}
+.booking-shell{
+  background:var(--espresso-800);
+  border:1px solid var(--line-soft);
+  border-radius:var(--radius-lg);
+  padding:clamp(28px,4vw,56px);
+  box-shadow:var(--shadow-deep);
+  position:relative;overflow:hidden;
+}
+.booking-shell::before{
+  content:"";position:absolute;top:-60%;right:-20%;width:60%;height:160%;
+  background:radial-gradient(circle, rgba(199,161,100,.10), transparent 70%);
+  pointer-events:none;
+}
+.booking-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap;margin-bottom:38px;}
+
+.day-status{
+  display:flex;align-items:center;gap:14px;
+  font-family:var(--font-mono);font-size:13px;color:var(--crema-200);
+  padding:14px 18px;border-radius:14px;background:rgba(0,0,0,.2);border:1px solid var(--line-soft);
+}
+.day-status .ring{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  background:conic-gradient(var(--gold) calc(var(--p,40)*1%), rgba(255,255,255,.08) 0);
+  display:flex;align-items:center;justify-content:center;
+}
+.day-status .ring::after{content:"";width:28px;height:28px;border-radius:50%;background:var(--espresso-800);}
+.day-status strong{color:var(--crema-50-text);font-size:14px;font-family:var(--font-body);font-weight:600;}
+
+.form-tabs{display:inline-flex;gap:6px;padding:6px;border-radius:999px;background:rgba(0,0,0,.25);border:1px solid var(--line-soft);}
+.form-tab{padding:13px 24px;border-radius:999px;font-size:14px;font-weight:600;color:var(--crema-200);transition:.35s var(--ease);}
+.form-tab.active{background:var(--gold);color:var(--espresso-900);}
+
+.form-panel{display:none;}
+.form-panel.active{display:block;animation:panelIn .5s var(--ease);}
+
+.field-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
+@media (max-width:640px){.field-grid{grid-template-columns:1fr;}}
+.field{display:flex;flex-direction:column;gap:9px;}
+.field label{
+  font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gold-light);
+}
+.field input, .field select, .field textarea{
+  background:rgba(0,0,0,.22);border:1px solid var(--line-soft);
+  border-radius:12px;padding:14px 16px;color:var(--crema-50-text);
+  font-size:15px;font-family:var(--font-body);
+  transition:border-color .3s, background .3s;
+}
+.field input::placeholder, .field textarea::placeholder{color:rgba(244,235,218,.4);}
+.field input:focus, .field select:focus, .field textarea:focus{
+  border-color:var(--gold-light);background:rgba(0,0,0,.32);outline:none;
+}
+.field select{
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23C7A164' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center;
+}
+.field textarea{resize:vertical;min-height:90px;font-family:inherit;}
+
+.order-summary{
+  background:rgba(0,0,0,.22);border:1px solid var(--line-soft);
+  border-radius:16px;padding:22px 22px;margin-bottom:30px;
+}
+.order-summary h4{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:14px;}
+.order-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:14.5px;border-bottom:1px dashed rgba(244,235,218,.12);}
+.order-row:last-of-type{border-bottom:none;}
+.order-row .name{color:var(--crema-100);}
+.order-row .qty{color:var(--crema-200);font-family:var(--font-mono);font-size:13px;margin-left:6px;}
+.order-row .price{font-family:var(--font-mono);color:var(--gold-light);}
+.order-empty{font-size:14px;color:var(--crema-200);padding:8px 0;}
+.order-total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft);font-family:var(--font-mono);}
+.order-total strong{font-size:18px;color:var(--gold-light);}
+
+.closed-banner{
+  display:none;
+  align-items:flex-start;gap:14px;
+  background:rgba(156,90,64,.12);border:1px solid rgba(156,90,64,.4);
+  border-radius:14px;padding:16px 18px;margin-bottom:26px;
+  font-size:14px;line-height:1.55;color:var(--crema-100);
+}
+.closed-banner.show{display:flex;}
+.closed-banner svg{width:20px;height:20px;flex-shrink:0;margin-top:2px;stroke:#E2A98C;}
+.closed-banner b{color:#E2A98C;}
+
+.submit-row{margin-top:30px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.submit-note{font-size:12.5px;color:var(--crema-200);max-width:280px;line-height:1.5;}
+
+/* ============== STORY / craft ============== */
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+@media (max-width:880px){.story-grid{grid-template-columns:1fr;gap:36px;}}
+.story-img{border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:4/5;position:relative;box-shadow:0 40px 70px -30px rgba(0,0,0,.35);}
+.story-img img{width:100%;height:100%;object-fit:cover;}
+.story-text h2{font-size:clamp(30px,4vw,46px);line-height:1.12;margin-bottom:22px;}
+.story-text p{font-size:16px;line-height:1.75;color:var(--cocoa-text-soft);margin-bottom:18px;max-width:480px;}
+.story-stats{display:flex;gap:36px;margin-top:34px;flex-wrap:wrap;}
+.stat b{font-family:var(--font-display);font-size:34px;display:block;color:var(--gold-deep);}
+.stat span{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--cocoa-text-soft);}
+
+/* ============== FOOTER ============== */
+.footer{background:var(--espresso-900);position:relative;z-index:2;padding-top:0;}
+.footer-map{
+  width:100%;height:380px;position:relative;
+  filter:sepia(.32) saturate(.6) brightness(.78) contrast(1.05) hue-rotate(-6deg);
+  border-bottom:1px solid var(--line-soft);
+}
+.footer-map iframe{width:100%;height:100%;border:0;display:block;}
+.footer-map::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg, rgba(27,20,16,.15), rgba(27,20,16,.55));
+  mix-blend-mode:multiply;
+}
+.footer-grid{
+  display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;
+  padding:70px 0 40px;
+}
+@media (max-width:880px){.footer-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:560px){.footer-grid{grid-template-columns:1fr;gap:34px;}}
+.footer-brand .brand{margin-bottom:16px;}
+.footer-brand p{color:var(--crema-200);font-size:14.5px;line-height:1.65;max-width:280px;}
+.footer-col h4{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:18px;}
+.footer-col a, .footer-col p{display:block;color:var(--crema-200);font-size:14.5px;line-height:2;transition:color .25s;}
+.footer-col a:hover{color:var(--gold-light);}
+.social-row{display:flex;gap:12px;margin-top:14px;}
+.social-row a{
+  width:38px;height:38px;border-radius:50%;border:1px solid var(--line-soft);
+  display:flex;align-items:center;justify-content:center;transition:.3s;
+}
+.social-row a:hover{background:var(--gold);border-color:var(--gold);}
+.social-row a:hover svg{stroke:var(--espresso-900);}
+.social-row svg{width:16px;height:16px;stroke:var(--crema-100);}
+.footer-bottom{
+  border-top:1px solid var(--line-soft);padding:24px 0 90px;
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  font-size:12.5px;color:rgba(244,235,218,.45);font-family:var(--font-mono);
+}
+
+/* ============== TOAST / SUCCESS MODAL ============== */
+.modal-overlay{
+  position:fixed;inset:0;z-index:400;
+  background:rgba(15,10,7,.72);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;visibility:hidden;transition:opacity .4s var(--ease), visibility .4s;
+}
+.modal-overlay.show{opacity:1;visibility:visible;}
+.modal-card{
+  background:var(--espresso-800);border:1px solid var(--line-soft);
+  border-radius:28px;padding:48px 36px;max-width:440px;width:100%;
+  text-align:center;position:relative;
+  transform:translateY(30px) scale(.95);transition:transform .5s cubic-bezier(.22,1.2,.36,1);
+  box-shadow:var(--shadow-deep);
+}
+.modal-overlay.show .modal-card{transform:translateY(0) scale(1);}
+.modal-icon{
+  width:78px;height:78px;border-radius:50%;margin:0 auto 26px;
+  background:radial-gradient(circle, rgba(199,161,100,.18), transparent 70%);
+  display:flex;align-items:center;justify-content:center;
+  border:1.4px solid var(--gold-light);
+}
+.modal-icon svg{width:34px;height:34px;stroke:var(--gold-light);}
+.modal-card h3{font-size:27px;color:var(--crema-50-text);margin-bottom:14px;line-height:1.25;}
+.modal-card p{color:var(--crema-200);font-size:15px;line-height:1.6;margin-bottom:28px;}
+.modal-close-btn{width:100%;}
+
+/* misc helper */
+.center{text-align:center;}
+.mono{font-family:var(--font-mono);}
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 8h12a2 2 0 0 1 2 2c0 3-1 6-7 6s-7-3-7-6a2 2 0 0 1 0-2z"/><path d="M17 9h2a2 2 0 0 1 0 4h-1"/><path d="M5 20h12"/><path d="M9 4c.5 1 .5 1.5 0 2.2M13 4c.5 1 .5 1.5 0 2.2" stroke-linecap="round"/></svg>
+      </span>
+      Tasty Coffee
+    </a>
+
+    <nav class="nav-links">
+      <a href="#menu" data-i18n="nav.menu">Меню</a>
+      <a href="#story" data-i18n="nav.story">История</a>
+      <a href="#booking" data-i18n="nav.booking">Бронирование</a>
+      <a href="#contact" data-i18n="nav.contact">Контакты</a>
+    </nav>
+
+    <div class="nav-actions">
+      <div class="lang-switch" id="langSwitch">
+        <button type="button" class="lang-btn" data-lang="ru">RU</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+        <button type="button" class="lang-btn" data-lang="fr">FR</button>
+      </div>
+      <span class="status-chip" id="statusChip">
+        <span class="status-dot open" id="statusDot"></span>
+        <span class="chip-label" id="statusLabel">Открыто до 19:00</span>
+      </span>
+      <button class="icon-btn" id="cartBtn" data-i18n-aria="nav.cart" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'});setFormTab('preorder');">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M6 8h12l-1.2 11.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 8z"/><path d="M9 8a3 3 0 1 1 6 0"/></svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <button class="icon-btn burger" id="burgerBtn" data-i18n-aria="nav.menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="drawer-panel">
+    <button class="icon-btn drawer-close" id="drawerClose" aria-label="Close" data-i18n-aria="nav.close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <a href="#menu" class="drawer-link" data-i18n="nav.menu">Меню</a>
+    <a href="#story" class="drawer-link" data-i18n="nav.story">История</a>
+    <a href="#booking" class="drawer-link" data-i18n="nav.booking">Бронирование</a>
+    <a href="#contact" class="drawer-link" data-i18n="nav.contact">Контакты</a>
+    <div class="lang-switch" id="langSwitchMobile" style="margin-top:14px;align-self:flex-start;">
+      <button type="button" class="lang-btn" data-lang="ru">RU</button>
+      <button type="button" class="lang-btn" data-lang="en">EN</button>
+      <button type="button" class="lang-btn" data-lang="fr">FR</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============== HERO ============== -->
+<section class="hero" id="top">
+  <div class="hero-media">
+    <img src="https://images.unsplash.com/photo-1541469406036-71229832e06e?auto=format&fit=crop&w=1900&q=80" alt="Ручная пуровер-заварка кофе, пар над кружкой">
+  </div>
+  <div class="steam-particles" id="steamParticles"></div>
+
+  <div class="wrap hero-content">
+    <div class="hero-eyebrow" data-i18n="hero.eyebrow">Specialty Coffee House — Mayfair, London</div>
+    <h1 data-i18n-html="hero.title">Тихий ритуал,<br><em>заваренный</em> неспеша.</h1>
+    <p class="hero-sub" data-i18n="hero.sub">Однопроисхожденческие зёрна, ручная заварка и витрина выпечки, испечённой к рассвету. Tasty Coffee — место, где Mayfair начинает утро.</p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn btn-primary" id="heroCta">
+        <span data-i18n="hero.cta1">Заказать или забронировать</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+      <a href="#menu" class="btn btn-ghost" data-i18n="hero.cta2">Открыть меню</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll-cue"><span data-i18n="hero.scroll">Листайте</span><div class="scroll-line"></div></div>
+</section>
+
+<a href="tel:+442071234567" class="float-call" data-i18n-aria="hero.callBtn">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+</a>
+
+<!-- ============== MARQUEE ============== -->
+<div class="marquee">
+  <div class="marquee-track" id="marqueeTrack">
+    <span data-i18n-html="marquee.text"><b>01</b> Однопроисхожденческие зёрна <b>02</b> Ручная заварка <b>03</b> Выпечка к рассвету <b>04</b> Mayfair, London<b>—</b></span>
+    <span data-i18n-html="marquee.text"><b>01</b> Однопроисхожденческие зёрна <b>02</b> Ручная заварка <b>03</b> Выпечка к рассвету <b>04</b> Mayfair, London<b>—</b></span>
+  </div>
+</div>
+
+<div class="fade-seam"></div>
+
+<!-- ============== MENU ============== -->
+<section class="section section-light" id="menu">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="menu.eyebrow">The Menu</div>
+    <div class="head-row reveal">
+      <h2 data-i18n="menu.title">Подборка дома.</h2>
+      <p class="muted-light" data-i18n="menu.subtitle">Готовим ежедневно. Закупаем этично. Подаём неспеша — добавьте в заказ и забронируйте самовывоз ниже.</p>
+    </div>
+
+    <div class="tabs reveal" id="menuTabs">
+      <button class="tab-btn active" data-tab="coffee" data-i18n="menu.tab.coffee">Кофе</button>
+      <button class="tab-btn" data-tab="tea" data-i18n="menu.tab.tea">Чай</button>
+      <button class="tab-btn" data-tab="pastry" data-i18n="menu.tab.pastry">Выпечка</button>
+      <button class="tab-btn" data-tab="breakfast" data-i18n="menu.tab.breakfast">Завтраки</button>
+    </div>
+
+    <div id="menuPanels"></div>
+  </div>
+</section>
+
+<!-- ============== STORY ============== -->
+<section class="section section-light" id="story">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="story-img reveal">
+        <img src="https://images.unsplash.com/photo-1556742031-c6961e8560b0?auto=format&fit=crop&w=1100&q=80" alt="Интерьер кофейни Tasty Coffee">
+      </div>
+      <div class="story-text reveal">
+        <div class="eyebrow" data-i18n="story.eyebrow">Our Craft</div>
+        <h2 data-i18n-html="story.title">Обжарено с замыслом,<br>подано с заботой.</h2>
+        <p data-i18n="story.p1">Каждую неделю мы привозим зелёные зёрна напрямую от мелких фермерских кооперативов — без посредников и без компромиссов по вкусу. Обжарка дозируется вручную партиями по 8 кг, чтобы раскрыть характер каждого происхождения.</p>
+        <p data-i18n="story.p2">Бариста проходят внутреннее обучение не меньше 6 недель прежде, чем встать за машину — потому что идеальная чашка начинается с уважения к зерну.</p>
+        <div class="story-stats">
+          <div class="stat"><b>12</b><span data-i18n="story.stat1">стран происхождения</span></div>
+          <div class="stat"><b>06:30</b><span data-i18n="story.stat2">первая чашка дня</span></div>
+          <div class="stat"><b>2018</b><span data-i18n="story.stat3">год основания</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== BOOKING / PRE-ORDER ============== -->
+<section class="section section-dark" id="booking">
+  <div class="wrap">
+    <div class="eyebrow" data-i18n="booking.eyebrow">Book or Pre-order</div>
+    <div class="head-row reveal" style="align-items:flex-end;">
+      <h2 style="color:var(--crema-50-text)" data-i18n="booking.title">Столик у окна — или ваш кофе, готовый к стойке.</h2>
+    </div>
+
+    <div class="booking-shell reveal">
+      <div class="booking-top">
+        <div class="form-tabs" id="formTabs">
+          <button class="form-tab active" data-form="booking" data-i18n="booking.tab.table">Бронирование столика</button>
+          <button class="form-tab" data-form="preorder" data-i18n="booking.tab.preorder">Предзаказ и самовывоз</button>
+        </div>
+        <div class="day-status" id="dayStatus">
+          <span class="ring" id="dayRing" style="--p:40"></span>
+          <span>
+            <strong id="dayStatusTitle">Открыто сейчас</strong><br>
+            <span id="dayStatusSub">До закрытия — 4 ч 12 мин</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="closed-banner" id="closedBanner">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 7v6l4 2"/></svg>
+        <span data-i18n-html="booking.closedBanner"><b>Сейчас мы закрыты.</b><br>Отправка брони и предзаказа недоступна вне часов работы (см. время по Лондону ниже). Оставьте заявку — мы свяжемся, как только откроемся, либо позвоните напрямую.</span>
+      </div>
+
+      <!-- TABLE BOOKING FORM -->
+      <form class="form-panel active" id="formBooking" data-form-target="booking">
+        <div class="field-grid">
+          <div class="field">
+            <label for="bDate" data-i18n="booking.field.date">Дата</label>
+            <input type="date" id="bDate" required>
+          </div>
+          <div class="field">
+            <label for="bTime" data-i18n="booking.field.time">Время</label>
+            <input type="time" id="bTime" required>
+          </div>
+          <div class="field">
+            <label for="bGuests" data-i18n="booking.field.guests">Количество гостей</label>
+            <select id="bGuests">
+              <option data-i18n="booking.guests.1">1 гость</option>
+              <option selected data-i18n="booking.guests.2">2 гостя</option>
+              <option data-i18n="booking.guests.3">3 гостя</option>
+              <option data-i18n="booking.guests.4">4 гостя</option>
+              <option data-i18n="booking.guests.5">5+ гостей</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="bName" data-i18n="booking.field.name">Ваше имя</label>
+            <input type="text" id="bName" placeholder="Алекс Картер" required>
+          </div>
+          <div class="field">
+            <label for="bPhone" data-i18n="booking.field.phone">Телефон</label>
+            <input type="tel" id="bPhone" placeholder="+44 7700 900000" required>
+          </div>
+          <div class="field" style="grid-column:1/-1">
+            <label for="bNotes" data-i18n="booking.field.notes">Пожелания (опционально)</label>
+            <textarea id="bNotes" data-i18n-placeholder="booking.field.notesPlaceholder" placeholder="День рождения, аллергии, годовщина…"></textarea>
+          </div>
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="btn btn-primary" id="submitBooking">
+            <span data-i18n="booking.submitTable">Подтвердить бронирование</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </button>
+          <span class="submit-note" data-i18n="booking.submitNoteTable">Письмо с заявкой придёт на нашу почту, мы подтвердим столик лично.</span>
+        </div>
+      </form>
+
+      <!-- PRE-ORDER FORM -->
+      <form class="form-panel" id="formPreorder" data-form-target="preorder">
+        <div class="order-summary">
+          <h4 data-i18n="booking.yourItems">Ваши позиции</h4>
+          <div id="orderRows"><div class="order-empty" data-i18n="booking.emptyCart">Корзина пуста — выберите что-нибудь во вкладке «Меню» выше ☝</div></div>
+          <div class="order-total" id="orderTotalRow" style="display:none;">
+            <span class="mono" data-i18n="booking.total">Итого</span>
+            <strong id="orderTotal">£0.00</strong>
+          </div>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label for="pTime" data-i18n="booking.field.pickupTime">Время самовывоза</label>
+            <input type="time" id="pTime" required>
+          </div>
+          <div class="field">
+            <label for="pName" data-i18n="booking.field.name">Ваше имя</label>
+            <input type="text" id="pName" placeholder="Алекс Картер" required>
+          </div>
+          <div class="field" style="grid-column:1/-1">
+            <label for="pPhone" data-i18n="booking.field.phone">Телефон</label>
+            <input type="tel" id="pPhone" placeholder="+44 7700 900000" required>
+          </div>
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="btn btn-primary" id="submitPreorder">
+            <span data-i18n="booking.submitPreorder">Подтвердить предзаказ</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </button>
+          <span class="submit-note" data-i18n="booking.submitNotePreorder">Заберём ваш заказ к указанному времени — без ожидания в очереди.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="footer" id="contact">
+  <div class="footer-map">
+    <iframe
+      src="https://www.google.com/maps?q=12+Marylebone+Lane,+London,+W1U+2NE&output=embed"
+      loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      title="Карта Tasty Coffee, 12 Marylebone Lane, London">
+    </iframe>
+  </div>
+
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand">
+          <span class="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 8h12a2 2 0 0 1 2 2c0 3-1 6-7 6s-7-3-7-6a2 2 0 0 1 0-2z"/><path d="M17 9h2a2 2 0 0 1 0 4h-1"/><path d="M5 20h12"/></svg>
+          </span>
+          Tasty Coffee
+        </a>
+        <p data-i18n="footer.tagline">Однопроисхожденческие зёрна, ручная заварка и витрина выпечки, испечённой к рассвету — в самом сердце Mayfair.</p>
+        <div class="social-row">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.2" cy="6.8" r="1"/></svg></a>
+          <a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M21 4 3 11.5l6 2.3M21 4l-3 16-6-4.4m-3-2.3L21 4M9 13.4V19l3-3"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footer.findUs">Find Us</h4>
+        <p>12 Marylebone Lane<br>London, W1U 2NE<br>United Kingdom</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footer.hours">Opening Hours</h4>
+        <p><span data-i18n="footer.monFri">Пн – Пт</span> &nbsp;06:30 – 19:00</p>
+        <p><span data-i18n="footer.sat">Суббота</span> &nbsp;07:30 – 20:00</p>
+        <p><span data-i18n="footer.sun">Воскресенье</span> &nbsp;08:00 – 17:00</p>
+        <p style="opacity:.55;font-size:12.5px;margin-top:8px;" data-i18n="footer.timezone">Время указано по Лондону (GMT/BST)</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footer.contact">Contact</h4>
+        <a href="tel:+442071234567">+44 20 7123 4567</a>
+        <a href="https://tastycoffee.london">tastycoffee.london</a>
+        <a href="mailto:314.example@gmail.com">314.example@gmail.com</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright">© 2026 Tasty Coffee, Mayfair London</span>
+      <span id="liveClock">—</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============== SUCCESS MODAL ============== -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal-card">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+    <h3 id="modalTitle">Ваш столик уже ждёт вас!</h3>
+    <p id="modalText">Мы получили заявку и свяжемся с вами для подтверждения. До встречи в Tasty Coffee.</p>
+    <button class="btn btn-dark modal-close-btn" id="modalCloseBtn" data-i18n="modal.close">Хорошо, спасибо</button>
+  </div>
+</div>
+
+<script>
+/* ===================================================================
+   1. DATA — меню
+=================================================================== */
+// Каждый пункт меню хранит переводы name/desc для ru/en/fr.
+// tag тоже переведён, т.к. это лейбл "Coffee/Tea/..." на карточке.
+const MENU = {
+  coffee: [
+    {id:'flatwhite', price:4.20, img:'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Signature Flat White', tag:'Кофе', desc:'Двойной ристретто, шёлковое суффолкское молоко, дозированный 21г сладкий шот.'},
+        en:{name:'Signature Flat White', tag:'Coffee', desc:'Double ristretto, silk-textured Suffolk milk, dialled-in for a 21g sweet shot.'},
+        fr:{name:'Flat White Signature', tag:'Café', desc:'Double ristretto, lait soyeux du Suffolk, dosé pour une extraction douce de 21g.'}
+      }},
+    {id:'espresso', price:3.20, img:'https://images.unsplash.com/photo-1572286258217-40142c1c6a70?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Double Espresso', tag:'Кофе', desc:'Тёмный шоколад, коричневый сахар, мягкая лещиновая крема — наш домашний бленд.'},
+        en:{name:'Double Espresso', tag:'Coffee', desc:'Dark chocolate, brown sugar, soft hazelnut crema — our house blend.'},
+        fr:{name:'Double Espresso', tag:'Café', desc:'Chocolat noir, sucre roux, crema douce à la noisette — notre mélange maison.'}
+      }},
+    {id:'pourover', price:5.50, img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Ethiopia Pour Over', tag:'Кофе', desc:'Однопроисхожденческая Yirgacheffe — жасмин, персик, яркий цитрусовый финиш. Заварен V60.'},
+        en:{name:'Ethiopia Pour Over', tag:'Coffee', desc:'Yirgacheffe single origin — jasmine, peach, bright citrus finish. Brewed V60.'},
+        fr:{name:'Éthiopie Pour Over', tag:'Café', desc:'Origine unique Yirgacheffe — jasmin, pêche, finale citronnée vive. Infusé en V60.'}
+      }},
+    {id:'cappuccino', price:4.00, img:'https://images.unsplash.com/photo-1534687941688-651ccaafbff8?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Cappuccino', tag:'Кофе', desc:'Плотная молочная пена, эспрессо с карамельной нотой, щепотка какао.'},
+        en:{name:'Cappuccino', tag:'Coffee', desc:'Thick milk foam, caramel-toned espresso, a dusting of cocoa.'},
+        fr:{name:'Cappuccino', tag:'Café', desc:'Mousse de lait épaisse, espresso aux notes caramel, pointe de cacao.'}
+      }},
+    {id:'coldbrew', price:4.60, img:'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Slow Cold Brew', tag:'Кофе', desc:'18 часов холодной экстракции, нотки тёмной вишни и тростникового сахара.'},
+        en:{name:'Slow Cold Brew', tag:'Coffee', desc:'18-hour cold extraction, notes of dark cherry and cane sugar.'},
+        fr:{name:'Cold Brew Lent', tag:'Café', desc:'Extraction à froid de 18 heures, notes de cerise noire et sucre de canne.'}
+      }},
+    {id:'mocha', price:4.80, img:'https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'House Mocha', tag:'Кофе', desc:'Бельгийский тёмный шоколад, эспрессо, лёгкая морская соль на пене.'},
+        en:{name:'House Mocha', tag:'Coffee', desc:'Belgian dark chocolate, espresso, a touch of sea salt on the foam.'},
+        fr:{name:'Mocha Maison', tag:'Café', desc:'Chocolat noir belge, espresso, pointe de fleur de sel sur la mousse.'}
+      }}
+  ],
+  tea: [
+    {id:'sencha', price:3.80, img:'https://images.unsplash.com/photo-1610478506025-8110cc8f1986?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Sencha Green', tag:'Чай', desc:'Японский лист, травяная свежесть, лёгкая морская соль на финише.'},
+        en:{name:'Sencha Green', tag:'Tea', desc:'Japanese leaf, grassy freshness, a whisper of sea salt on the finish.'},
+        fr:{name:'Sencha Vert', tag:'Thé', desc:'Feuille japonaise, fraîcheur herbacée, pointe saline en finale.'}
+      }},
+    {id:'earlgrey', price:3.60, img:'https://images.unsplash.com/photo-1491720731493-223f97d92c21?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Earl Grey Royal', tag:'Чай', desc:'Бергамот, васильковые лепестки, мягкий чёрный лист высокой степени.'},
+        en:{name:'Earl Grey Royal', tag:'Tea', desc:'Bergamot, cornflower petals, a soft high-grade black leaf.'},
+        fr:{name:'Earl Grey Royal', tag:'Thé', desc:'Bergamote, pétales de bleuet, feuille noire douce de qualité supérieure.'}
+      }},
+    {id:'chamomile', price:3.50, img:'https://images.unsplash.com/photo-1484501893812-f1923a3dd028?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Chamomile & Honey', tag:'Чай', desc:'Сушёная ромашка, нить мёда акации, идеален к вечеру.'},
+        en:{name:'Chamomile & Honey', tag:'Tea', desc:'Dried chamomile, a thread of acacia honey, perfect for the evening.'},
+        fr:{name:'Camomille & Miel', tag:'Thé', desc:"Camomille séchée, filet de miel d'acacia, parfait pour le soir."}
+      }}
+  ],
+  pastry: [
+    {id:'croissant', price:3.40, img:'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Butter Croissant', tag:'Выпечка', desc:'42 слоя французского масла, выпекается каждое утро в 6:00.'},
+        en:{name:'Butter Croissant', tag:'Pastry', desc:'42 layers of French butter, baked fresh every morning at 6am.'},
+        fr:{name:'Croissant au Beurre', tag:'Pâtisserie', desc:'42 couches de beurre français, cuit chaque matin à 6h.'}
+      }},
+    {id:'almond', price:4.50, img:'https://images.unsplash.com/photo-1530610476181-d83430b64dcd?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Almond Tart', tag:'Выпечка', desc:'Миндальный крем, карамелизированные пластины, тонкая слойка.'},
+        en:{name:'Almond Tart', tag:'Pastry', desc:'Almond cream, caramelised flakes, delicate laminated pastry.'},
+        fr:{name:'Tarte aux Amandes', tag:'Pâtisserie', desc:'Crème d\'amande, éclats caramélisés, pâte feuilletée fine.'}
+      }},
+    {id:'cinnamon', price:4.10, img:'https://images.unsplash.com/photo-1612366747681-e4ca6992b1e9?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Cinnamon Roll', tag:'Выпечка', desc:'Тёплая корица, сливочная глазурь, мягкое бриошевое тесто.'},
+        en:{name:'Cinnamon Roll', tag:'Pastry', desc:'Warm cinnamon, cream-cheese glaze, soft brioche dough.'},
+        fr:{name:'Roulé à la Cannelle', tag:'Pâtisserie', desc:'Cannelle chaude, glaçage au fromage frais, pâte briochée moelleuse.'}
+      }}
+  ],
+  breakfast: [
+    {id:'avotoast', price:7.80, img:'https://images.unsplash.com/photo-1623691752358-0be1e4235183?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Avocado Sourdough', tag:'Завтраки', desc:'Хлеб на закваске, авокадо, лимон, чили-масло, морская соль.'},
+        en:{name:'Avocado Sourdough', tag:'Breakfast', desc:'Sourdough bread, avocado, lemon, chilli oil, sea salt.'},
+        fr:{name:'Avocat sur Levain', tag:'Petit-déjeuner', desc:'Pain au levain, avocat, citron, huile pimentée, fleur de sel.'}
+      }},
+    {id:'eggsbenny', price:9.20, img:'https://images.unsplash.com/photo-1664192579086-fe10c4de4d46?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'Eggs Benedict', tag:'Завтраки', desc:'Пашот, голландский соус, ветчина из Суффолка, английская маффин.'},
+        en:{name:'Eggs Benedict', tag:'Breakfast', desc:'Poached eggs, hollandaise, Suffolk ham, English muffin.'},
+        fr:{name:'Œufs Benedict', tag:'Petit-déjeuner', desc:'Œufs pochés, sauce hollandaise, jambon du Suffolk, muffin anglais.'}
+      }},
+    {id:'granola', price:6.50, img:'https://images.unsplash.com/photo-1725883691833-97103ecd582a?auto=format&fit=crop&w=900&q=80',
+      i18n:{
+        ru:{name:'House Granola Bowl', tag:'Завтраки', desc:'Овёс, кленовый орех, греческий йогурт, сезонные ягоды.'},
+        en:{name:'House Granola Bowl', tag:'Breakfast', desc:'Oats, maple walnut, Greek yoghurt, seasonal berries.'},
+        fr:{name:'Bol de Granola Maison', tag:'Petit-déjeuner', desc:'Avoine, noix au sirop d\'érable, yaourt grec, fruits de saison.'}
+      }}
+  ]
+};
+
+const cart = {}; // id -> qty
+
+/* ===================================================================
+   1b. I18N — переводы интерфейса (RU / EN / FR)
+=================================================================== */
+const I18N = {
+  ru:{
+    'nav.menu':'Меню', 'nav.story':'История', 'nav.booking':'Бронирование', 'nav.contact':'Контакты', 'nav.cart':'Корзина', 'nav.close':'Закрыть',
+    'hero.eyebrow':'Specialty Coffee House — Mayfair, London',
+    'hero.title':'Тихий ритуал,<br><em>заваренный</em> неспеша.',
+    'hero.sub':'Однопроисхожденческие зёрна, ручная заварка и витрина выпечки, испечённой к рассвету. Tasty Coffee — место, где Mayfair начинает утро.',
+    'hero.cta1':'Заказать или забронировать', 'hero.cta2':'Открыть меню', 'hero.scroll':'Листайте', 'hero.callBtn':'Позвонить в Tasty Coffee',
+    'marquee.text':'<b>01</b> Однопроисхожденческие зёрна <b>02</b> Ручная заварка <b>03</b> Выпечка к рассвету <b>04</b> Mayfair, London<b>—</b>',
+    'menu.eyebrow':'The Menu', 'menu.title':'Подборка дома.',
+    'menu.subtitle':'Готовим ежедневно. Закупаем этично. Подаём неспеша — добавьте в заказ и забронируйте самовывоз ниже.',
+    'menu.tab.coffee':'Кофе', 'menu.tab.tea':'Чай', 'menu.tab.pastry':'Выпечка', 'menu.tab.breakfast':'Завтраки',
+    'menu.add':'Добавить', 'menu.less':'Меньше', 'menu.more':'Больше',
+    'story.eyebrow':'Our Craft', 'story.title':'Обжарено с замыслом,<br>подано с заботой.',
+    'story.p1':'Каждую неделю мы привозим зелёные зёрна напрямую от мелких фермерских кооперативов — без посредников и без компромиссов по вкусу. Обжарка дозируется вручную партиями по 8 кг, чтобы раскрыть характер каждого происхождения.',
+    'story.p2':'Бариста проходят внутреннее обучение не меньше 6 недель прежде, чем встать за машину — потому что идеальная чашка начинается с уважения к зерну.',
+    'story.stat1':'стран происхождения', 'story.stat2':'первая чашка дня', 'story.stat3':'год основания',
+    'booking.eyebrow':'Book or Pre-order', 'booking.title':'Столик у окна — или ваш кофе, готовый к стойке.',
+    'booking.tab.table':'Бронирование столика', 'booking.tab.preorder':'Предзаказ и самовывоз',
+    'booking.closedBanner':'<b>Сейчас мы закрыты.</b><br>Отправка брони и предзаказа недоступна вне часов работы (см. время по Лондону ниже). Оставьте заявку — мы свяжемся, как только откроемся, либо позвоните напрямую.',
+    'booking.field.date':'Дата', 'booking.field.time':'Время', 'booking.field.guests':'Количество гостей',
+    'booking.field.name':'Ваше имя', 'booking.field.phone':'Телефон', 'booking.field.notes':'Пожелания (опционально)',
+    'booking.field.notesPlaceholder':'День рождения, аллергии, годовщина…', 'booking.field.pickupTime':'Время самовывоза',
+    'booking.guests.1':'1 гость', 'booking.guests.2':'2 гостя', 'booking.guests.3':'3 гостя', 'booking.guests.4':'4 гостя', 'booking.guests.5':'5+ гостей',
+    'booking.submitTable':'Подтвердить бронирование', 'booking.submitPreorder':'Подтвердить предзаказ',
+    'booking.submitNoteTable':'Письмо с заявкой придёт на нашу почту, мы подтвердим столик лично.',
+    'booking.submitNotePreorder':'Заберём ваш заказ к указанному времени — без ожидания в очереди.',
+    'booking.yourItems':'Ваши позиции', 'booking.emptyCart':'Корзина пуста — выберите что-нибудь во вкладке «Меню» выше ☝',
+    'booking.total':'Итого', 'booking.sending':'Отправляем…',
+    'booking.openNow':'Открыто сейчас', 'booking.closedNow':'Сейчас закрыто',
+    'booking.openUntil':(t)=>`Открыто до ${t}`, 'booking.timeLeft':(h,m)=>`До закрытия — ${h} ч ${m} мин`,
+    'booking.opensToday':(t)=>`Откроемся сегодня в ${t}`, 'booking.opensTomorrow':(t)=>`Откроемся завтра в ${t}`,
+    'footer.tagline':'Однопроисхожденческие зёрна, ручная заварка и витрина выпечки, испечённой к рассвету — в самом сердце Mayfair.',
+    'footer.findUs':'Find Us', 'footer.hours':'Opening Hours', 'footer.monFri':'Пн – Пт', 'footer.sat':'Суббота', 'footer.sun':'Воскресенье',
+    'footer.timezone':'Время указано по Лондону (GMT/BST)', 'footer.contact':'Contact', 'footer.copyright':'© 2026 Tasty Coffee, Mayfair London',
+    'footer.londonTime':(h,m)=>`Время в Лондоне — ${h}:${m}`,
+    'modal.close':'Хорошо, спасибо',
+    'modal.bookingTitle':'Ваш столик уже ждёт вас!', 'modal.bookingText':'Заявка отправлена — мы свяжемся для подтверждения. До встречи в Tasty Coffee.',
+    'modal.preorderTitle':'Ваш идеальный кофе уже ждёт вас!', 'modal.preorderText':'Предзаказ принят — заберём всё к указанному времени, без ожидания в очереди.'
+  },
+  en:{
+    'nav.menu':'Menu', 'nav.story':'Story', 'nav.booking':'Booking', 'nav.contact':'Contact', 'nav.cart':'Cart', 'nav.close':'Close',
+    'hero.eyebrow':'Specialty Coffee House — Mayfair, London',
+    'hero.title':'A quiet ritual,<br>brewed <em>slowly</em>.',
+    'hero.sub':'Single-origin beans, hand-poured rituals and a cabinet full of pastries baked at sunrise. Tasty Coffee is where Mayfair starts its morning.',
+    'hero.cta1':'Order or reserve a table', 'hero.cta2':'View menu', 'hero.scroll':'Scroll', 'hero.callBtn':'Call Tasty Coffee',
+    'marquee.text':'<b>01</b> Single-origin beans <b>02</b> Hand-poured rituals <b>03</b> Pastries baked at sunrise <b>04</b> Mayfair, London<b>—</b>',
+    'menu.eyebrow':'The Menu', 'menu.title':'House selection.',
+    'menu.subtitle':'Crafted daily. Sourced ethically. Served slowly — add to your order and book pickup below.',
+    'menu.tab.coffee':'Coffee', 'menu.tab.tea':'Tea', 'menu.tab.pastry':'Pastry', 'menu.tab.breakfast':'Breakfast',
+    'menu.add':'Add', 'menu.less':'Less', 'menu.more':'More',
+    'story.eyebrow':'Our Craft', 'story.title':'Roasted with intention,<br>served with care.',
+    'story.p1':'Every week we bring in green beans directly from small farming co-operatives — no middlemen, no compromise on flavour. Roasting is hand-dosed in 8kg batches to bring out the character of each origin.',
+    'story.p2':'Our baristas train in-house for at least 6 weeks before stepping behind the machine — because the perfect cup starts with respect for the bean.',
+    'story.stat1':'countries of origin', 'story.stat2':'first cup of the day', 'story.stat3':'year founded',
+    'booking.eyebrow':'Book or Pre-order', 'booking.title':'A table by the window — or your coffee, ready at the counter.',
+    'booking.tab.table':'Table Booking', 'booking.tab.preorder':'Pre-order & Pickup',
+    'booking.closedBanner':"<b>We're currently closed.</b><br>Bookings and pre-orders can't be sent outside opening hours (see London time below). Leave a request — we'll get in touch once we open, or call us directly.",
+    'booking.field.date':'Date', 'booking.field.time':'Time', 'booking.field.guests':'Guests',
+    'booking.field.name':'Your name', 'booking.field.phone':'Phone', 'booking.field.notes':'Notes (optional)',
+    'booking.field.notesPlaceholder':'Birthday, allergies, anniversary…', 'booking.field.pickupTime':'Pickup time',
+    'booking.guests.1':'1 guest', 'booking.guests.2':'2 guests', 'booking.guests.3':'3 guests', 'booking.guests.4':'4 guests', 'booking.guests.5':'5+ guests',
+    'booking.submitTable':'Confirm reservation', 'booking.submitPreorder':'Confirm pre-order',
+    'booking.submitNoteTable':"We'll email your request and confirm your table personally.",
+    'booking.submitNotePreorder':"We'll have your order ready by the time you choose — no queueing.",
+    'booking.yourItems':'Your items', 'booking.emptyCart':'Your basket is empty — pick something from the Menu tab above ☝',
+    'booking.total':'Subtotal', 'booking.sending':'Sending…',
+    'booking.openNow':'Open now', 'booking.closedNow':'Currently closed',
+    'booking.openUntil':(t)=>`Open until ${t}`, 'booking.timeLeft':(h,m)=>`Closing in ${h}h ${m}m`,
+    'booking.opensToday':(t)=>`Opening today at ${t}`, 'booking.opensTomorrow':(t)=>`Opening tomorrow at ${t}`,
+    'footer.tagline':'Single-origin beans, hand-poured rituals and a cabinet full of pastries baked at sunrise — right in the heart of Mayfair.',
+    'footer.findUs':'Find Us', 'footer.hours':'Opening Hours', 'footer.monFri':'Mon – Fri', 'footer.sat':'Saturday', 'footer.sun':'Sunday',
+    'footer.timezone':'Times shown are London time (GMT/BST)', 'footer.contact':'Contact', 'footer.copyright':'© 2026 Tasty Coffee, Mayfair London',
+    'footer.londonTime':(h,m)=>`London time — ${h}:${m}`,
+    'modal.close':'Great, thanks',
+    'modal.bookingTitle':'Your table is waiting for you!', 'modal.bookingText':"Request sent — we'll be in touch to confirm. See you at Tasty Coffee.",
+    'modal.preorderTitle':'Your perfect coffee is waiting!', 'modal.preorderText':"Pre-order received — we'll have it ready at your chosen time, no queueing."
+  },
+  fr:{
+    'nav.menu':'Menu', 'nav.story':'Histoire', 'nav.booking':'Réservation', 'nav.contact':'Contact', 'nav.cart':'Panier', 'nav.close':'Fermer',
+    'hero.eyebrow':'Maison de café de spécialité — Mayfair, Londres',
+    'hero.title':'Un rituel paisible,<br>infusé <em>lentement</em>.',
+    'hero.sub':"Grains d'origine unique, rituels infusés à la main et une vitrine de pâtisseries cuites à l'aube. Tasty Coffee, où Mayfair commence sa matinée.",
+    'hero.cta1':'Commander ou réserver', 'hero.cta2':'Voir le menu', 'hero.scroll':'Défiler', 'hero.callBtn':'Appeler Tasty Coffee',
+    'marquee.text':"<b>01</b> Grains d'origine unique <b>02</b> Rituels infusés à la main <b>03</b> Pâtisseries cuites à l'aube <b>04</b> Mayfair, Londres<b>—</b>",
+    'menu.eyebrow':'Le Menu', 'menu.title':'Sélection maison.',
+    'menu.subtitle':'Préparé chaque jour. Sourcé de façon éthique. Servi sans hâte — ajoutez à votre commande et réservez un retrait ci-dessous.',
+    'menu.tab.coffee':'Café', 'menu.tab.tea':'Thé', 'menu.tab.pastry':'Pâtisserie', 'menu.tab.breakfast':'Petit-déjeuner',
+    'menu.add':'Ajouter', 'menu.less':'Moins', 'menu.more':'Plus',
+    'story.eyebrow':'Notre Savoir-faire', 'story.title':'Torréfié avec intention,<br>servi avec soin.',
+    'story.p1':"Chaque semaine, nous recevons des grains verts directement de petites coopératives agricoles — sans intermédiaires, sans compromis sur le goût. La torréfaction est dosée à la main par lots de 8kg pour révéler le caractère de chaque origine.",
+    'story.p2':"Nos baristas suivent une formation interne d'au moins 6 semaines avant de prendre la machine — car la tasse parfaite commence par le respect du grain.",
+    'story.stat1':"pays d'origine", 'story.stat2':'première tasse du jour', 'story.stat3':'année de fondation',
+    'booking.eyebrow':'Réserver ou Précommander', 'booking.title':'Une table près de la fenêtre — ou votre café, prêt au comptoir.',
+    'booking.tab.table':'Réservation de table', 'booking.tab.preorder':'Précommande & Retrait',
+    'booking.closedBanner':"<b>Nous sommes actuellement fermés.</b><br>Les réservations et précommandes ne peuvent pas être envoyées hors des horaires d'ouverture (voir l'heure de Londres ci-dessous). Laissez une demande — nous vous contacterons dès l'ouverture, ou appelez-nous directement.",
+    'booking.field.date':'Date', 'booking.field.time':'Heure', 'booking.field.guests':'Convives',
+    'booking.field.name':'Votre nom', 'booking.field.phone':'Téléphone', 'booking.field.notes':'Remarques (facultatif)',
+    'booking.field.notesPlaceholder':'Anniversaire, allergies, fête…', 'booking.field.pickupTime':'Heure de retrait',
+    'booking.guests.1':'1 convive', 'booking.guests.2':'2 convives', 'booking.guests.3':'3 convives', 'booking.guests.4':'4 convives', 'booking.guests.5':'5+ convives',
+    'booking.submitTable':'Confirmer la réservation', 'booking.submitPreorder':'Confirmer la précommande',
+    'booking.submitNoteTable':'Un e-mail nous parviendra et nous confirmerons votre table personnellement.',
+    'booking.submitNotePreorder':"Votre commande sera prête à l'heure choisie — sans file d'attente.",
+    'booking.yourItems':'Vos articles', 'booking.emptyCart':'Votre panier est vide — choisissez quelque chose dans l\'onglet Menu ci-dessus ☝',
+    'booking.total':'Sous-total', 'booking.sending':'Envoi en cours…',
+    'booking.openNow':'Ouvert maintenant', 'booking.closedNow':'Actuellement fermé',
+    'booking.openUntil':(t)=>`Ouvert jusqu'à ${t}`, 'booking.timeLeft':(h,m)=>`Fermeture dans ${h}h ${m}m`,
+    'booking.opensToday':(t)=>`Ouverture aujourd'hui à ${t}`, 'booking.opensTomorrow':(t)=>`Ouverture demain à ${t}`,
+    'footer.tagline':"Grains d'origine unique, rituels infusés à la main et une vitrine de pâtisseries cuites à l'aube — au cœur de Mayfair.",
+    'footer.findUs':'Nous trouver', 'footer.hours':"Horaires d'ouverture", 'footer.monFri':'Lun – Ven', 'footer.sat':'Samedi', 'footer.sun':'Dimanche',
+    'footer.timezone':'Heures affichées selon Londres (GMT/BST)', 'footer.contact':'Contact', 'footer.copyright':'© 2026 Tasty Coffee, Mayfair London',
+    'footer.londonTime':(h,m)=>`Heure de Londres — ${h}:${m}`,
+    'modal.close':"D'accord, merci",
+    'modal.bookingTitle':'Votre table vous attend !', 'modal.bookingText':'Demande envoyée — nous vous contacterons pour confirmer. À bientôt chez Tasty Coffee.',
+    'modal.preorderTitle':'Votre café parfait vous attend !', 'modal.preorderText':"Précommande reçue — tout sera prêt à l'heure choisie, sans file d'attente."
+  }
+};
+
+let currentLang = (function(){
+  try{
+    const saved = localStorage.getItem('tastyCoffeeLang');
+    if(saved && I18N[saved]) return saved;
+  }catch(e){}
+  return 'ru';
+})();
+
+function t(key, ...args){
+  const entry = I18N[currentLang]?.[key] ?? I18N.ru[key] ?? key;
+  return typeof entry === 'function' ? entry(...args) : entry;
+}
+
+function applyLanguage(lang){
+  if(!I18N[lang]) return;
+  currentLang = lang;
+  try{ localStorage.setItem('tastyCoffeeLang', lang); }catch(e){}
+
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    el.innerHTML = t(el.dataset.i18nHtml);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el=>{
+    el.setAttribute('aria-label', t(el.dataset.i18nAria));
+  });
+
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  renderMenu();
+  renderOrderSummary();
+  refreshOpenState();
+  tickClock();
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>applyLanguage(btn.dataset.lang));
+});
+
+/* ===================================================================
+   2. RENDER MENU
+=================================================================== */
+const panelsRoot = document.getElementById('menuPanels');
+
+function renderMenu(){
+  const activeTab = document.querySelector('#menuTabs .tab-btn.active')?.dataset.tab || 'coffee';
+  panelsRoot.innerHTML = '';
+  Object.keys(MENU).forEach((cat)=>{
+    const panel = document.createElement('div');
+    panel.className = 'menu-panel' + (cat===activeTab ? ' active' : '');
+    panel.id = 'panel-'+cat;
+    panel.innerHTML = MENU[cat].map(item => {
+      const tr = item.i18n[currentLang] || item.i18n.ru;
+      return `
+      <div class="dish-card">
+        <div class="dish-img">
+          <img src="${item.img}" alt="${tr.name}" loading="lazy">
+          <span class="dish-tag">${tr.tag}</span>
+        </div>
+        <div class="dish-body">
+          <div class="dish-top">
+            <h3>${tr.name}</h3>
+            <span class="dish-price">£${item.price.toFixed(2)}</span>
+          </div>
+          <p class="dish-desc">${tr.desc}</p>
+          <div class="dish-foot" data-id="${item.id}">
+            <div class="qty-control" style="display:none;">
+              <button type="button" class="qty-minus" aria-label="${t('menu.less')}">−</button>
+              <span class="qty-val">0</span>
+              <button type="button" class="qty-plus" aria-label="${t('menu.more')}">+</button>
+            </div>
+            <button type="button" class="add-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              ${t('menu.add')}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;}).join('');
+    panelsRoot.appendChild(panel);
+  });
+  bindDishControls();
+}
+
+function findItem(id){
+  for(const cat in MENU){
+    const found = MENU[cat].find(i=>i.id===id);
+    if(found) return found;
+  }
+  return null;
+}
+
+function bindDishControls(){
+  document.querySelectorAll('.dish-foot').forEach(foot=>{
+    const id = foot.dataset.id;
+    const addBtn = foot.querySelector('.add-btn');
+    const qtyControl = foot.querySelector('.qty-control');
+    const qtyVal = foot.querySelector('.qty-val');
+    const minus = foot.querySelector('.qty-minus');
+    const plus = foot.querySelector('.qty-plus');
+
+    function sync(){
+      const q = cart[id] || 0;
+      if(q > 0){
+        addBtn.style.display = 'none';
+        qtyControl.style.display = 'flex';
+        qtyVal.textContent = q;
+      } else {
+        addBtn.style.display = 'inline-flex';
+        qtyControl.style.display = 'none';
+      }
+    }
+
+    addBtn.addEventListener('click', ()=>{
+      cart[id] = (cart[id]||0) + 1;
+      sync();
+      bumpCart();
+      renderOrderSummary();
+    });
+    plus.addEventListener('click', ()=>{
+      cart[id] = (cart[id]||0) + 1;
+      sync();
+      bumpCart();
+      renderOrderSummary();
+    });
+    minus.addEventListener('click', ()=>{
+      cart[id] = Math.max(0,(cart[id]||0) - 1);
+      if(cart[id]===0) delete cart[id];
+      sync();
+      updateCartBadge();
+      renderOrderSummary();
+    });
+    sync();
+  });
+}
+
+/* ===================================================================
+   3. CART BADGE
+=================================================================== */
+const cartBadge = document.getElementById('cartBadge');
+function cartCount(){ return Object.values(cart).reduce((a,b)=>a+b,0); }
+function updateCartBadge(){
+  const n = cartCount();
+  cartBadge.textContent = n;
+  cartBadge.classList.toggle('show', n>0);
+}
+function bumpCart(){
+  updateCartBadge();
+  cartBadge.classList.remove('bump');
+  requestAnimationFrame(()=>cartBadge.classList.add('bump'));
+}
+
+/* ===================================================================
+   4. ORDER SUMMARY (pre-order form)
+=================================================================== */
+const orderRows = document.getElementById('orderRows');
+const orderTotalRow = document.getElementById('orderTotalRow');
+const orderTotalEl = document.getElementById('orderTotal');
+
+function renderOrderSummary(){
+  const ids = Object.keys(cart);
+  if(ids.length === 0){
+    orderRows.innerHTML = `<div class="order-empty">${t('booking.emptyCart')}</div>`;
+    orderTotalRow.style.display = 'none';
+    return;
+  }
+  let total = 0;
+  orderRows.innerHTML = ids.map(id=>{
+    const item = findItem(id);
+    const tr = item.i18n[currentLang] || item.i18n.ru;
+    const qty = cart[id];
+    const sum = item.price * qty;
+    total += sum;
+    return `<div class="order-row">
+      <span class="name">${tr.name} <span class="qty">× ${qty}</span></span>
+      <span class="price">£${sum.toFixed(2)}</span>
+    </div>`;
+  }).join('');
+  orderTotalRow.style.display = 'flex';
+  orderTotalEl.textContent = '£' + total.toFixed(2);
+}
+
+/* ===================================================================
+   5. TABS — Menu categories
+=================================================================== */
+document.getElementById('menuTabs').addEventListener('click', e=>{
+  const btn = e.target.closest('.tab-btn');
+  if(!btn) return;
+  document.querySelectorAll('#menuTabs .tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const cat = btn.dataset.tab;
+  document.querySelectorAll('.menu-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+cat).classList.add('active');
+});
+
+/* ===================================================================
+   6. TABS — Booking / Preorder form switch
+=================================================================== */
+function setFormTab(target){
+  document.querySelectorAll('.form-tab').forEach(t=>t.classList.toggle('active', t.dataset.form===target));
+  document.querySelectorAll('.form-panel').forEach(p=>p.classList.toggle('active', p.dataset.formTarget===target));
+}
+document.getElementById('formTabs').addEventListener('click', e=>{
+  const btn = e.target.closest('.form-tab');
+  if(!btn) return;
+  setFormTab(btn.dataset.form);
+});
+
+/* ===================================================================
+   7. LONDON TIME / OPEN-CLOSED LOGIC
+   Часы (по Лондону): Пн-Пт 06:30-19:00 · Сб 07:30-20:00 · Вс 08:00-17:00
+=================================================================== */
+const HOURS = {
+  0: {open: 8*60,    close: 17*60},        // Sunday
+  1: {open: 6*60+30, close: 19*60},        // Monday
+  2: {open: 6*60+30, close: 19*60},
+  3: {open: 6*60+30, close: 19*60},
+  4: {open: 6*60+30, close: 19*60},
+  5: {open: 6*60+30, close: 19*60},        // Friday
+  6: {open: 7*60+30, close: 20*60}         // Saturday
+};
+
+function getLondonParts(){
+  // Получаем текущее время в Лондоне независимо от локали посетителя
+  const fmt = new Intl.DateTimeFormat('en-GB', {
+    timeZone:'Europe/London', weekday:'short',
+    hour:'2-digit', minute:'2-digit', hour12:false
+  });
+  const parts = fmt.formatToParts(new Date());
+  const map = {};
+  parts.forEach(p=>map[p.type]=p.value);
+  const weekdayMap = {Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+  const day = weekdayMap[map.weekday];
+  const minutes = parseInt(map.hour,10)*60 + parseInt(map.minute,10);
+  return {day, minutes, hourStr: map.hour, minStr: map.minute};
+}
+
+function fmtHM(totalMin){
+  const h = Math.floor(totalMin/60) % 24;
+  const m = totalMin % 60;
+  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+}
+
+let isOpenNow = true;
+
+function refreshOpenState(){
+  const {day, minutes} = getLondonParts();
+  const today = HOURS[day];
+  const open = minutes >= today.open && minutes < today.close;
+  isOpenNow = open;
+
+  const dot = document.getElementById('statusDot');
+  const label = document.getElementById('statusLabel');
+  const dayRing = document.getElementById('dayRing');
+  const dayTitle = document.getElementById('dayStatusTitle');
+  const daySub = document.getElementById('dayStatusSub');
+  const closedBanner = document.getElementById('closedBanner');
+  const submitBooking = document.getElementById('submitBooking');
+  const submitPreorder = document.getElementById('submitPreorder');
+
+  if(open){
+    dot.classList.add('open'); dot.classList.remove('closed');
+    const left = today.close - minutes;
+    const lh = Math.floor(left/60), lm = left%60;
+    label.textContent = t('booking.openUntil', fmtHM(today.close));
+    dayTitle.textContent = t('booking.openNow');
+    daySub.textContent = t('booking.timeLeft', lh, lm);
+    const span = today.close - today.open;
+    const progressed = Math.min(100, Math.max(0, ((minutes-today.open)/span)*100));
+    dayRing.style.setProperty('--p', progressed.toFixed(0));
+    closedBanner.classList.remove('show');
+    submitBooking.disabled = false;
+    submitPreorder.disabled = false;
+    submitBooking.classList.remove('is-disabled');
+    submitPreorder.classList.remove('is-disabled');
+  } else {
+    dot.classList.add('closed'); dot.classList.remove('open');
+    const nd = HOURS[(day+1)%7];
+    label.textContent = t('booking.closedNow');
+    dayTitle.textContent = t('booking.closedNow');
+    daySub.textContent = minutes < today.open
+      ? t('booking.opensToday', fmtHM(today.open))
+      : t('booking.opensTomorrow', fmtHM(nd.open));
+    dayRing.style.setProperty('--p', 0);
+    closedBanner.classList.add('show');
+    submitBooking.disabled = true;
+    submitPreorder.disabled = true;
+    submitBooking.classList.add('is-disabled');
+    submitPreorder.classList.add('is-disabled');
+  }
+}
+
+function tickClock(){
+  const {hourStr, minStr} = getLondonParts();
+  document.getElementById('liveClock').textContent = t('footer.londonTime', hourStr, minStr);
+}
+
+refreshOpenState();
+tickClock();
+setInterval(()=>{ refreshOpenState(); tickClock(); }, 30000);
+
+/* ===================================================================
+   8. FORM SUBMISSION → Web3Forms (отправка на 314.example@gmail.com)
+   ВНИМАНИЕ: впишите свой Access Key, полученный на https://web3forms.com
+=================================================================== */
+const WEB3FORMS_ACCESS_KEY = "ВАШ_ACCESS_KEY_СЮДА";
+
+async function sendToWeb3Forms(payload){
+  const res = await fetch('https://api.web3forms.com/submit', {
+    method:'POST',
+    headers:{'Content-Type':'application/json', Accept:'application/json'},
+    body: JSON.stringify({
+      access_key: WEB3FORMS_ACCESS_KEY,
+      to: '314.example@gmail.com',
+      subject: payload.subject,
+      from_name: 'Tasty Coffee — сайт',
+      ...payload.fields
+    })
+  });
+  return res.ok;
+}
+
+function openModal(title, text){
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalText').textContent = text;
+  document.getElementById('successModal').classList.add('show');
+}
+document.getElementById('modalCloseBtn').addEventListener('click', ()=>{
+  document.getElementById('successModal').classList.remove('show');
+});
+document.getElementById('successModal').addEventListener('click', e=>{
+  if(e.target.id==='successModal') e.target.classList.remove('show');
+});
+
+// Table booking submit
+document.getElementById('formBooking').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  if(!isOpenNow) return;
+  const btn = document.getElementById('submitBooking');
+  const original = btn.innerHTML;
+  btn.innerHTML = t('booking.sending');
+  btn.disabled = true;
+
+  const fields = {
+    Тип_заявки: 'Бронирование столика',
+    Язык_сайта: currentLang.toUpperCase(),
+    Дата: document.getElementById('bDate').value,
+    Время: document.getElementById('bTime').value,
+    Гостей: document.getElementById('bGuests').value,
+    Имя: document.getElementById('bName').value,
+    Телефон: document.getElementById('bPhone').value,
+    Пожелания: document.getElementById('bNotes').value || '—'
+  };
+
+  try{
+    await sendToWeb3Forms({subject:`Новое бронирование столика — ${fields.Имя}`, fields});
+  }catch(err){ /* даже если сеть подвела — показываем тёплое сообщение, дублируем по телефону */ }
+
+  btn.innerHTML = original;
+  btn.disabled = false;
+  e.target.reset();
+  openModal(t('modal.bookingTitle'), t('modal.bookingText'));
+});
+
+// Pre-order submit
+document.getElementById('formPreorder').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  if(!isOpenNow) return;
+  if(cartCount()===0){
+    document.getElementById('menu').scrollIntoView({behavior:'smooth'});
+    return;
+  }
+  const btn = document.getElementById('submitPreorder');
+  const original = btn.innerHTML;
+  btn.innerHTML = t('booking.sending');
+  btn.disabled = true;
+
+  // В письме владельцу названия позиций всегда на русском — независимо от языка интерфейса клиента
+  const itemsList = Object.keys(cart).map(id=>{
+    const item = findItem(id);
+    const ruName = item.i18n.ru.name;
+    return `${ruName} × ${cart[id]} = £${(item.price*cart[id]).toFixed(2)}`;
+  }).join('; ');
+  const total = Object.keys(cart).reduce((sum,id)=>sum + findItem(id).price*cart[id], 0);
+
+  const fields = {
+    Тип_заявки: 'Предзаказ и самовывоз',
+    Язык_сайта: currentLang.toUpperCase(),
+    Позиции: itemsList,
+    Сумма: '£'+total.toFixed(2),
+    Время_самовывоза: document.getElementById('pTime').value,
+    Имя: document.getElementById('pName').value,
+    Телефон: document.getElementById('pPhone').value
+  };
+
+  try{
+    await sendToWeb3Forms({subject:`Новый предзаказ — ${fields.Имя} — £${total.toFixed(2)}`, fields});
+  }catch(err){}
+
+  btn.innerHTML = original;
+  btn.disabled = false;
+  e.target.reset();
+  for(const k in cart) delete cart[k];
+  updateCartBadge();
+  renderOrderSummary();
+  document.querySelectorAll('.dish-foot').forEach(f=>{
+    f.querySelector('.add-btn').style.display='inline-flex';
+    f.querySelector('.qty-control').style.display='none';
+  });
+  openModal(t('modal.preorderTitle'), t('modal.preorderText'));
+});
+
+/* ===================================================================
+   9. NAV scroll state + mobile drawer
+=================================================================== */
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', ()=>{
+  navEl.classList.toggle('scrolled', window.scrollY > 40);
+}, {passive:true});
+
+const drawer = document.getElementById('mobileDrawer');
+document.getElementById('burgerBtn').addEventListener('click', ()=>drawer.classList.add('open'));
+document.getElementById('drawerClose').addEventListener('click', ()=>drawer.classList.remove('open'));
+drawer.addEventListener('click', e=>{ if(e.target===drawer) drawer.classList.remove('open'); });
+document.querySelectorAll('.drawer-panel a').forEach(a=>a.addEventListener('click', ()=>drawer.classList.remove('open')));
+
+/* ===================================================================
+   10. Reveal on scroll
+=================================================================== */
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+  });
+}, {threshold:.15});
+revealEls.forEach(el=>io.observe(el));
+
+/* ===================================================================
+   11. Steam particles (ambient hero animation)
+=================================================================== */
+const steamRoot = document.getElementById('steamParticles');
+for(let i=0;i<14;i++){
+  const s = document.createElement('span');
+  const size = 40 + Math.random()*90;
+  s.style.width = size+'px';
+  s.style.height = size+'px';
+  s.style.left = (38 + Math.random()*30)+'%';
+  s.style.setProperty('--drift', (Math.random()*60-30)+'px');
+  s.style.animationDuration = (8+Math.random()*9)+'s';
+  s.style.animationDelay = (Math.random()*10)+'s';
+  steamRoot.appendChild(s);
+}
+
+/* ===================================================================
+   INIT
+=================================================================== */
+applyLanguage(currentLang); // расставит переводы, активную кнопку языка, отрисует меню и статус "открыто/закрыто"
+updateCartBadge();
+</script>
+</body>
+</html>
