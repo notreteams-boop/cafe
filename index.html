@@ -150,7 +150,7 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
 }
 .lang-btn.active{background:var(--gold);color:var(--espresso-900);font-weight:600;}
 .lang-btn:not(.active):hover{background:rgba(255,255,255,.08);}
-@media (max-width:560px){.lang-switch{display:none;}}
+
 
 .nav-actions{display:flex;align-items:center;gap:10px;}
 .icon-btn{
@@ -180,6 +180,7 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
   .burger{display:flex;}
   .status-chip{display:none;}
   .nav .brand-mark{display:none;}
+  #langSwitch{display:none;}
 }
 
 /* mobile drawer */
@@ -808,7 +809,7 @@ h1,h2,h3,.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-
       <form class="form-panel" id="formPreorder" data-form-target="preorder">
         <div class="order-summary">
           <h4 data-i18n="booking.yourItems">Ваши позиции</h4>
-          <div id="orderRows"><div class="order-empty" data-i18n="booking.emptyCart">Корзина пуста — выберите что-нибудь во вкладке «Меню» выше ☝</div></div>
+          <div id="orderRows"><div class="order-empty" data-i18n="booking.emptyCart">Корзина пуста — выберите что-нибудь во вкладке «Меню» выше</div></div>
           <div class="order-total" id="orderTotalRow" style="display:none;">
             <span class="mono" data-i18n="booking.total">Итого</span>
             <strong id="orderTotal">£0.00</strong>
@@ -1060,7 +1061,7 @@ const I18N = {
     'booking.submitTable':'Подтвердить бронирование', 'booking.submitPreorder':'Подтвердить предзаказ',
     'booking.submitNoteTable':'Письмо с заявкой придёт на нашу почту, мы подтвердим столик лично.',
     'booking.submitNotePreorder':'Заберём ваш заказ к указанному времени — без ожидания в очереди.',
-    'booking.yourItems':'Ваши позиции', 'booking.emptyCart':'Корзина пуста — выберите что-нибудь во вкладке «Меню» выше ☝',
+    'booking.yourItems':'Ваши позиции', 'booking.emptyCart':'Корзина пуста — выберите что-нибудь во вкладке «Меню» выше',
     'booking.total':'Итого', 'booking.sending':'Отправляем…',
     'booking.openNow':'Открыто сейчас', 'booking.closedNow':'Сейчас закрыто',
     'booking.openUntil':(t)=>`Открыто до ${t}`, 'booking.timeLeft':(h,m)=>`До закрытия — ${h} ч ${m} мин`,
@@ -1098,7 +1099,7 @@ const I18N = {
     'booking.submitTable':'Confirm reservation', 'booking.submitPreorder':'Confirm pre-order',
     'booking.submitNoteTable':"We'll email your request and confirm your table personally.",
     'booking.submitNotePreorder':"We'll have your order ready by the time you choose — no queueing.",
-    'booking.yourItems':'Your items', 'booking.emptyCart':'Your basket is empty — pick something from the Menu tab above ☝',
+    'booking.yourItems':'Your items', 'booking.emptyCart':'Your basket is empty — pick something from the Menu tab above',
     'booking.total':'Subtotal', 'booking.sending':'Sending…',
     'booking.openNow':'Open now', 'booking.closedNow':'Currently closed',
     'booking.openUntil':(t)=>`Open until ${t}`, 'booking.timeLeft':(h,m)=>`Closing in ${h}h ${m}m`,
@@ -1136,7 +1137,7 @@ const I18N = {
     'booking.submitTable':'Confirmer la réservation', 'booking.submitPreorder':'Confirmer la précommande',
     'booking.submitNoteTable':'Un e-mail nous parviendra et nous confirmerons votre table personnellement.',
     'booking.submitNotePreorder':"Votre commande sera prête à l'heure choisie — sans file d'attente.",
-    'booking.yourItems':'Vos articles', 'booking.emptyCart':'Votre panier est vide — choisissez quelque chose dans l\'onglet Menu ci-dessus ☝',
+    'booking.yourItems':'Vos articles', 'booking.emptyCart':'Votre panier est vide — choisissez quelque chose dans l\'onglet Menu ci-dessus',
     'booking.total':'Sous-total', 'booking.sending':'Envoi en cours…',
     'booking.openNow':'Ouvert maintenant', 'booking.closedNow':'Actuellement fermé',
     'booking.openUntil':(t)=>`Ouvert jusqu'à ${t}`, 'booking.timeLeft':(h,m)=>`Fermeture dans ${h}h ${m}m`,
@@ -1174,7 +1175,7 @@ const I18N = {
     'booking.submitTable':'Confirmar reserva', 'booking.submitPreorder':'Confirmar pedido',
     'booking.submitNoteTable':'Te enviaremos un correo y confirmaremos tu mesa personalmente.',
     'booking.submitNotePreorder':'Tendremos tu pedido listo a la hora elegida — sin colas.',
-    'booking.yourItems':'Tus artículos', 'booking.emptyCart':'Tu cesta está vacía — elige algo en la pestaña Menú arriba ☝',
+    'booking.yourItems':'Tus artículos', 'booking.emptyCart':'Tu cesta está vacía — elige algo en la pestaña Menú arriba',
     'booking.total':'Subtotal', 'booking.sending':'Enviando…',
     'booking.openNow':'Abierto ahora', 'booking.closedNow':'Actualmente cerrado',
     'booking.openUntil':(t)=>`Abierto hasta las ${t}`, 'booking.timeLeft':(h,m)=>`Cierra en ${h}h ${m}m`,
